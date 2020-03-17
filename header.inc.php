@@ -1,27 +1,5 @@
-<?php session_start();
-
-function strip_tags_content($text, $tags = '', $invert = FALSE) 
-{ 
-        preg_match_all('/<(.+?)[\s]*\/?[\s]*>/si', trim($tags), $tags); 
-        $tags = array_unique($tags[1]); 
-        
-        if(is_array($tags) AND count($tags) > 0) 
-        { 
-            if($invert == FALSE) 
-            { 
-                return preg_replace('@<(?!(?:'. implode('|', $tags) .')\b)(\w+)\b.*?>.*?</\1>@si', '', $text); 
-            } 
-            else 
-            { 
-                return preg_replace('@<('. implode('|', $tags) .')\b.*?>.*?</\1>@si', '', $text); 
-            } 
-        } 
-        elseif($invert == FALSE) 
-        { 
-            return preg_replace('@<(\w+)\b.*?>.*?</\1>@si', '', $text); 
-        } 
-        return $text; 
-    } 
+<?php
+ session_start();
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +8,7 @@ function strip_tags_content($text, $tags = '', $invert = FALSE)
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
-  <title>Dashboard - Target Admin</title>
+  <title>Dashboard - Data Mining System</title>
 
   <meta charset="utf-8">
   <meta name="description" content="">
@@ -103,22 +81,6 @@ function strip_tags_content($text, $tags = '', $invert = FALSE)
                 &nbsp;&nbsp;Change My Password
               </a>
             </li>
-       
-        
-             
-        <!--    <li>
-              <a href="update-password.php">
-                <i class="fa fa-dollar"></i> 
-                &nbsp;&nbsp;Change My Password
-              </a>
-            </li>
-
-            <li>
-              <a href="profile.php">
-                <i class="fa fa-user"></i> 
-                &nbsp;&nbsp;Profile
-              </a>
-            </li> -->
  
             <li class="divider"></li>
 
