@@ -8,7 +8,7 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
-  <title>Dashboard - Data Mining System</title>
+  <title>Data Mining System Admin Panel</title>
 
   <meta charset="utf-8">
   <meta name="description" content="">
@@ -53,7 +53,7 @@
       </button>
 
       <a class="navbar-brand navbar-brand-image" href="dashboard.php">
-        <img src="photos/logo.png" alt="Site Logos">
+        <img src="photos/logo.png" alt="Site Logos" style="height:100%;">
       </a>
 
     </div> <!-- /.navbar-header -->
@@ -131,211 +131,30 @@
 
           <ul class="dropdown-menu">   
             
-           
+         
             <li>
-              <a href="Tour_Categorys.php">
-                <i class="fa fa-edit nav-icon"></i> 
-                Tour Categorys
-              </a>
-            </li> 
-            <li>
-              <a href="Tour_Tags.php"><i class="fa fa-edit nav-icon"></i> 
-                Tour Tags
+              <a href="subjects.php"><i class="fa fa-edit nav-icon"></i> 
+                Subjects
               </a>
             </li>
-            <li>
-              <a href="Tour_InternationDomestics.php"><i class="fa fa-globe" aria-hidden="true"></i>
-                &nbsp;&nbsp;Tour Master
-              </a>
-            </li> 
-             <li>
-              <a href="Country_Master.php"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;
-               Country
-              </a>
-            </li> 
-             <li>
-              <a href="Newsletter.php">
-                <i class="fa fa-envelope" aria-hidden="true"></i>
-                &nbsp;&nbsp;Newsletters
-              </a>
-            </li>   
-              <!--  <li><a href="cluster_admin.php"><i class="fa fa-edit nav-icon"></i> Create Cluster Admin</a></li>   
-            
-            
-
-               <li><a href="Employee_User.php?clusterid=<?php echo $_SESSION['id']; ?>"><i class="fa fa-edit nav-icon"></i> Create Employee User </a></li>   
-              -->
-              
+ 
           </ul>
         </li>
-        
-      <!--   <?php if($_SESSION["roletype"]=="EMPLOYEE"){?>
-         <li>
-          <a href="employee_myorder.php">
-             <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-            My Order
-          </a>
-        </li>
-     
-   <?php } ?> -->
-
-  
-       
-  <!--  <?php if($_SESSION["roletype"]=="MASTERADMIN"){?>
-         <li>
-          <a href="User_Register.php">
-          <i class="fa fa-user" aria-hidden="true"></i>
-            User's
-          </a>
-        </li>
-     
-   <?php } ?>
+          
  
-    
-
-    <?php if($_SESSION["roletype"]=="MASTERADMIN"){?>
-         <li>
-          <a href="category.php">
-           <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-            Products
-          </a>
-        </li>
-     
-   <?php } ?>
- -->
-
-
-<!-- Website Management -->
-
-<li class="dropdown ">
-          <a href="#about" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
-            <i class="fa fa-desktop"></i>
-            Website Management
-            <span class="caret"></span>
-          </a>
-    <ul class="dropdown-menu">   
-            
-           <li>
-              <a href="Home.php">
-                 <i class="fa fa-desktop"></i>
-                 &nbsp;&nbsp;Home
-              </a>
-           </li>
-            <li>
-              <a href="AboutUs.php">
-                <i class="fa fa-edit nav-icon"></i>
-                 About Us
-              </a>
-           </li>
-           <li>
-              <a href="Services.php">
-                <i class="fa fa-cogs" aria-hidden="true"></i>
-                 &nbsp;&nbsp;Services
-              </a>
-           </li>
-
-          
-           <li>
-              <a href="Testimonials_user.php">
-               <i class="fa fa-comments" aria-hidden="true"></i>
-                  &nbsp;&nbsp;Testimonials
-              </a>
-           </li>
-            <li>
-              <a href="Privacy_Policy.php">
-               <i class="fa fa-edit nav-icon"></i>
-                  &nbsp;&nbsp;Privacy Policy 
-              </a>
-           </li>
-           <li>
-              <a href="Terms_of_Use.php">
-               <i class="fa fa-edit nav-icon"></i>
-                  &nbsp;&nbsp;Terms of Use
-              </a>
-           </li>
-            <li>
-              <a href="blogs.php">
-                <i class="fa fa-eye" aria-hidden="true"></i>
-                   &nbsp;&nbsp;&nbsp;Blogs
-              </a>
-           </li>
-    <!--       
-           <li>
-              <a href="AboutUs.php">
-                <i class="fa fa-edit nav-icon"></i>
-                 About Us
-              </a>
-           </li>
-            <li>
-              <a href="Services.php">
-                <i class="fa fa-edit nav-icon"></i>
-                 Services
-              </a>
-           </li>
-            <li>
-              <a href="Features.php">
-               <i class="fa fa-edit nav-icon"></i>
-                 Features
-              </a>
-           </li>
-           <li>
-              <a href="Driver_Benifit.php">
-             <i class="fa fa-male" aria-hidden="true"></i>
-                &nbsp;&nbsp; Driver Benifit
-              </a>
-           </li>
-            <li>
-                <a href="Advertisment.php">
-                  <i class="fa fa-globe"></i>
-                   &nbsp;&nbsp;Advertisment
-                </a>
-            </li>
-            <li>
-              <a href="News.php">
-                <i class="fa fa-comment-o"></i>
-                 &nbsp;&nbsp;News
-              </a>
-           </li> -->
-    </ul>
-</li>
-
-<!-- End of  Website Management -->
-          
-         <li>
-          <a href="ToursandTravels.php">
-           <i class="fa fa-globe" aria-hidden="true"></i>
-            Tours
-          </a>
-        </li>
-          <li>
-            <?php 
-            include("conn.inc.php");
-            $Inquirytot = mysql_query("SELECT * from inquiry where inquiry_show = 'NO'");
-            $InqTOT = mysql_num_rows($Inquirytot);
-             ?>
-          <a href="Inquirys.php">
-            <?php 
-            if(!($InqTOT == 0))
-            {
-              ?>
-               <span class="badge badge-warning" style="position: absolute; margin-left: 20px;"><?php echo $InqTOT ; ?></span>
-              <?php   
-            }
-
-             ?>
-           
-           <i class="fa fa-info-circle" aria-hidden="true"></i>
-            Inquiry's
+        <li>
+          <a href="faculties.php">
+            <i class="fa fa-male"></i>
+            Faculties
           </a>
         </li>
 
-         <li>
+        <li>
           <a href="users.php">
             <i class="fa fa-users"></i>
-            Master User
+           Students
           </a>
         </li>
-     
 
   
       </ul>

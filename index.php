@@ -4,34 +4,33 @@
 if(isset($_REQUEST['btnLogin']))
 {
 		$uname = $_REQUEST['loginusername'];
-		$pass = md5 ($_REQUEST['loginpassword']);
+    $pass = md5 ($_REQUEST['loginpassword']);
+    
 		$result = mysql_query("SELECT * from admin_master where email = '$uname' and password = '$pass'");
 		$num_rows = mysql_num_rows($result);
 		$row=mysql_fetch_array($result);
 		
-		$_SESSION['roletype'] = "";
+		$_SESSION['type'] = "";
 		
-	
 			
 		if($num_rows == 1 ) //$num_rows == 0
 		{
 			
 			
-			$_SESSION['name'] = $uname;
+			$_SESSION['name'] = $row["name"];
 			$_SESSION['login'] = "1";
 			$_SESSION['id']= $row[0];
-			$_SESSION['roletype']= "MASTERADMIN";
+			$_SESSION['type']= $row["type"];
 			$address=$_SERVER['REMOTE_ADDR'];
 			mysql_query("INSERT into history values(NULL,'$uname',now(),'$address')");
 			 
-			echo "<script type='text/javascript'>window.location='dashboard.php'</script>"; 
+      echo "<script type='text/javascript'>window.location='dashboard.php'</script>"; 
+      
 		}
 		
 		else
 		{
 			$_SESSION['login'] = "";	
-        
-			
 		}
 	}
 
@@ -44,7 +43,7 @@ if(isset($_REQUEST['btnLogin']))
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
-  <title>Login - Tours and Travels one stop solution for all your need's</title>
+  <title>Login - Data Mining System</title>
 
   <meta charset="utf-8">
   <meta name="description" content="">
@@ -123,7 +122,7 @@ if(isset($_REQUEST['btnLogin']))
 
     <div class="account-body">
 
-      <h3 class="account-body-title">Welcome back to Tours & Travles Admin Panel.</h3>
+      <h3 class="account-body-title">Welcome back to Data Mining System  Admin Panel.</h3>
 
       <h5 class="account-body-subtitle">Please sign in to get access.</h5>
 		
