@@ -10,16 +10,12 @@
         $name = ucfirst(addslashes($_REQUEST['name']));
         $email = addslashes($_REQUEST['email']);
         $mobile = addslashes($_REQUEST['mobile']);
-        $subject = addslashes($_REQUEST['subject']);
         $password = addslashes($_REQUEST['password']);
         $passwordMD = md5($_REQUEST['password']);
 
-        mysql_query("INSERT into admin_master values(NULL,'$name','$email','$mobile','$passwordMD','FACULTY','$password')");
+        mysql_query("INSERT into admin_master values(NULL,'$name','$email','$mobile','$passwordMD','MASTERADMIN','$password')");
       
-        $last_id = mysql_insert_id();
-        mysql_query("INSERT into facultySubjects values(NULL,'$last_id','$subject')");
-
-      echo "<script type='text/javascript'>window.location='faculties.php'</script>";
+      echo "<script type='text/javascript'>window.location='users.php'</script>";
 
   }
      
@@ -32,17 +28,13 @@
       $name = ucfirst(addslashes($_REQUEST['name']));
       $email = addslashes($_REQUEST['email']);
       $mobile = addslashes($_REQUEST['mobile']);
-      $subject = addslashes($_REQUEST['subject']);
     
       mysql_query("UPDATE admin_master set name = '$name' ,
        email = '$email',
        mobile = '$mobile'
         where id = '$id'");
 
-        mysql_query("UPDATE facultySubjects set subject_id = '$subject'
-         where faculty_id = '$id'");
-            
-     echo "<script type='text/javascript'>window.location='faculties.php'</script>";
+     echo "<script type='text/javascript'>window.location='users.php'</script>";
 
   }
   // End of Insert Record  
@@ -78,10 +70,10 @@
     <div class="content-container">-->
 
             <div class="content-header">
-                <h2 class="content-header-title">Faculties</h2>
+                <h2 class="content-header-title">Users</h2>
                 <ol class="breadcrumb">
                     <li><a href="dashboard.php">Home</a></li>
-                    <li class="active"><a href="faculties.php">Faculties</a></li>
+                    <li class="active"><a href="users.php">Users</a></li>
 
                 </ol>
             </div>
@@ -97,23 +89,22 @@
      $id = $_REQUEST['id'];
      $check = mysql_query("DELETE  from admin_master where id = '$id'");
        
-       echo "<script type='text/javascript'>window.location='faculties.php'</script>";
+       echo "<script type='text/javascript'>window.location='users.php'</script>";
     }
     else if(isset($_REQUEST['create']))
   {
     include("conn.inc.php");
-               $get = mysql_query("SELECT *from subjects");
     ?>
                     <!-- Create subjects -->
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
                                 <i class="fa fa-tasks"></i>
-                                Create Faculty
+                                Create User
                             </h3>
                         </div>
                         <div class="portlet-content">
-                            <form method="post" id="validate-basic" action="faculties.php" class="form parsley-form"
+                            <form method="post" id="validate-basic" action="users.php" class="form parsley-form"
                                 data-validate="parsley" enctype="multipart/form-data">
 
                                 <div class="col-md-12">
@@ -147,26 +138,8 @@
                                             data-required-message="Please Enter Mobile" data-min="10" />
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <label class="col-md-12">Subject :<strong style="color:Red">*</strong></label>
-                                    <div class="form-group col-md-12">
-                                        <select name="subject" tabindex="2" class="form-control" data-required="true"
-                                            data-required-message="Please Select Subject">
-                                            <option value="">Select Subject</option>
-                                            <?php
-              while($row = mysql_fetch_array($get))
-              {
-                ?>
-                                            <option value="<?php echo $row['id'] ?>"><?php echo $row['subject'] ?>
-                                            </option>
-                                            <?php
-              }
-            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12"><br></div>
-
+                            
+                        
                                 <div class="col-sm-6">
                                     <label class="col-md-12">Password :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
@@ -175,6 +148,7 @@
                                             data-required-message="Please Enter Password" />
                                     </div>
                                 </div>
+                                <br>
                                 <div class="col-sm-6">
                                     <label class="col-md-12">Confirm Passowrd :<strong
                                             style="color:Red">*</strong></label>
@@ -218,11 +192,11 @@
                         <div class="portlet-header">
                             <h3>
                                 <i class="fa fa-tasks"></i>
-                                Update Faculty :
+                                Update User :
                             </h3>
                         </div>
                         <div class="portlet-content">
-                            <form method="post" id="validate-basic" action="faculties.php" class="form parsley-form"
+                            <form method="post" id="validate-basic" action="users.php" class="form parsley-form"
                                 data-validate="parsley" enctype="multipart/form-data">
                                 <input type="hidden" name="id" id="id" value="<?php echo $id; ?>">
                                 <div class="col-md-12">
@@ -259,26 +233,7 @@
                                             value="<?php echo $data['mobile'] ?>" />
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <label class="col-md-12">Subject :<strong style="color:Red">*</strong></label>
-                                    <div class="form-group col-md-12">
-                                        <select name="subject" tabindex="2" class="form-control" data-required="true"
-                                            data-required-message="Please Select Subject">
-                                            <option value="">Select Subject</option>
-                                            <?php
-      while($row = mysql_fetch_array($getSubjects))
-      {
-        ?>
-                                            <option value="<?php echo $row['id'] ?>"
-                                                <?php if($row['id'] === $selected['subject_id']) echo 'selected="selected"' ?>>
-                                                <?php echo $row['subject'] ?>
-                                            </option>
-                                            <?php
-      }
-    ?>
-                                        </select>
-                                    </div>
-                                </div>
+                               
                                 <div class="col-sm-12"><br></div>
 
 
@@ -306,10 +261,10 @@
 
                             <h3>
                                 <i class="fa fa-table"></i>
-                                Faculties&nbsp;&nbsp;
+                                Users&nbsp;&nbsp;
 
 
-                                <a href="faculties.php?create=y"><i class="fa fa-plus-square"></i></a>
+                                <a href="users.php?create=y"><i class="fa fa-plus-square"></i></a>
 
 
                             </h3>
@@ -329,7 +284,6 @@
                                             <th style="text-align: center;">Name</th>
                                             <th style="text-align: center;">Email</th>
                                             <th style="text-align: center;">Mobile</th>
-                                            <th style="text-align: center;">Subject</th>
                                             <th style="width:210px;">Update</th>
                                             <th style="width:210px;">Delete</th>
 
@@ -339,7 +293,7 @@
                                     <tbody>
                                         <?php
          include("conn.inc.php");
-               $get = mysql_query("SELECT *from admin_master where type='FACULTY' order by id desc");
+               $get = mysql_query("SELECT *from admin_master where type='MASTERADMIN' AND id!=1 order by id desc");
                $i = 1;
                while($row = mysql_fetch_array($get))
                {
@@ -358,24 +312,22 @@
                                             <td style="text-align: center; vertical-align: middle;">
                                                 <?php echo $row['mobile']; ?>
                                             </td>
-                                            <td style="text-align: center; vertical-align: middle;">
-                                                <?php 
-    $getSubjectId =  mysql_query("SELECT *from facultysubjects where 	faculty_id='$row[0]'");
-    $subject = mysql_fetch_assoc($getSubjectId);
-    $id = $subject["subject_id"];
-    $getsubjectName = mysql_query("SELECT * from subjects where id='$id'");
-    $subjects = mysql_fetch_assoc($getsubjectName);
-    echo $subjects['subject'];
-                                                ?>
-                                            </td>
+                                       
 
-                                            <td><a href="faculties.php?update=y&id=<?php echo $row['id']; ?>"><button
+                                            <td><a href="users.php?update=y&id=<?php echo $row['id']; ?>"><button
                                                         class="btn btn-secondary" type="button">Update</button></a></td>
 
                                             <td>
-                                                <a href="faculties.php?remove=y&id=<?php echo $row['id']; ?>"
-                                                    onclick="return confirm('Are you sure you have to Remove this Faculty  ??')"><button
+                                            <?php
+                                            if($_SESSION['id'] != $row['id']){
+                                                ?>
+                                                 <a href="users.php?remove=y&id=<?php echo $row['id']; ?>"
+                                                    onclick="return confirm('Are you sure you have to Remove this User  ??')"><button
                                                         class="btn btn-primary">Delete</button></a>
+                                                <?php
+                                            }
+                                             ?>
+                                               
                                             </td>
                                         </tr>
 

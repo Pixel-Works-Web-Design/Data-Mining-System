@@ -7,19 +7,30 @@
       
        include("conn.inc.php");
 
-        $name = ucfirst(addslashes($_REQUEST['name']));
+        $fname = ucfirst(addslashes($_REQUEST['fname']));
+        $lname = ucfirst(addslashes($_REQUEST['lname']));
         $email = addslashes($_REQUEST['email']);
         $mobile = addslashes($_REQUEST['mobile']);
-        $subject = addslashes($_REQUEST['subject']);
+        $class = addslashes($_REQUEST['class']);
+        $gender = addslashes($_REQUEST['gender']);
         $password = addslashes($_REQUEST['password']);
         $passwordMD = md5($_REQUEST['password']);
 
-        mysql_query("INSERT into admin_master values(NULL,'$name','$email','$mobile','$passwordMD','FACULTY','$password')");
+        mysql_query("INSERT into students(
+            id,fname,lname,email,mobile,class,gender,password,passwordVisibility
+        ) values(
+            NULL,
+            '$fname',
+            '$lname',
+            '$email',
+            '$mobile',
+            '$class',
+            '$gender',
+            '$passwordMD',
+            '$password')
+            ");
       
-        $last_id = mysql_insert_id();
-        mysql_query("INSERT into facultySubjects values(NULL,'$last_id','$subject')");
-
-      echo "<script type='text/javascript'>window.location='faculties.php'</script>";
+      echo "<script type='text/javascript'>window.location='students.php'</script>";
 
   }
      
@@ -29,20 +40,21 @@
       include("conn.inc.php");
 
       $id = $_REQUEST['id'];
-      $name = ucfirst(addslashes($_REQUEST['name']));
-      $email = addslashes($_REQUEST['email']);
-      $mobile = addslashes($_REQUEST['mobile']);
-      $subject = addslashes($_REQUEST['subject']);
-    
-      mysql_query("UPDATE admin_master set name = '$name' ,
-       email = '$email',
-       mobile = '$mobile'
-        where id = '$id'");
+      $fname = ucfirst(addslashes($_REQUEST['fname']));
+    $lname = ucfirst(addslashes($_REQUEST['lname']));
+    $email = addslashes($_REQUEST['email']);
+    $mobile = addslashes($_REQUEST['mobile']);
+    $class = addslashes($_REQUEST['class']);
+    $gender = addslashes($_REQUEST['gender']);
 
-        mysql_query("UPDATE facultySubjects set subject_id = '$subject'
-         where faculty_id = '$id'");
-            
-     echo "<script type='text/javascript'>window.location='faculties.php'</script>";
+mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
+       email = '$email',
+       mobile = '$mobile',
+       class = '$class',
+       gender = '$gender'
+        where id = '$id'");
+     
+     echo "<script type='text/javascript'>window.location='students.php'</script>";
 
   }
   // End of Insert Record  
@@ -78,10 +90,10 @@
     <div class="content-container">-->
 
             <div class="content-header">
-                <h2 class="content-header-title">Faculties</h2>
+                <h2 class="content-header-title">Students</h2>
                 <ol class="breadcrumb">
                     <li><a href="dashboard.php">Home</a></li>
-                    <li class="active"><a href="faculties.php">Faculties</a></li>
+                    <li class="active"><a href="students.php">Students</a></li>
 
                 </ol>
             </div>
@@ -95,25 +107,24 @@
   {
       include("conn.inc.php");
      $id = $_REQUEST['id'];
-     $check = mysql_query("DELETE  from admin_master where id = '$id'");
+     $check = mysql_query("DELETE  from students where id = '$id'");
        
-       echo "<script type='text/javascript'>window.location='faculties.php'</script>";
+       echo "<script type='text/javascript'>window.location='students.php'</script>";
     }
     else if(isset($_REQUEST['create']))
   {
     include("conn.inc.php");
-               $get = mysql_query("SELECT *from subjects");
     ?>
                     <!-- Create subjects -->
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
                                 <i class="fa fa-tasks"></i>
-                                Create Faculty
+                                Create Student
                             </h3>
                         </div>
                         <div class="portlet-content">
-                            <form method="post" id="validate-basic" action="faculties.php" class="form parsley-form"
+                            <form method="post" id="validate-basic" action="students.php" class="form parsley-form"
                                 data-validate="parsley" enctype="multipart/form-data">
 
                                 <div class="col-md-12">
@@ -125,12 +136,20 @@
                                 <div class="col-sm-12"><br></div>
 
                                 <div class="col-sm-6">
-                                    <label class="col-md-12">Name :<strong style="color:Red">*</strong></label>
+                                    <label class="col-md-12">First Name :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
-                                        <input name="name" type="text" id="name" tabindex="2" class="form-control"
+                                        <input name="fname" type="text" id="fname" tabindex="2" class="form-control"
                                             data-required="true" data-required-message="Please Enter Name" />
                                     </div>
                                 </div>
+                                <div class="col-sm-6">
+                                    <label class="col-md-12">Last Name :<strong style="color:Red">*</strong></label>
+                                    <div class="form-group col-md-12">
+                                        <input name="lname" type="text" id="lname" tabindex="2" class="form-control"
+                                            data-required="true" data-required-message="Please Enter Name" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-12"><br></div>
                                 <div class="col-sm-6">
                                     <label class="col-md-12">Email :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
@@ -138,7 +157,6 @@
                                             data-required="true" data-required-message="Please Enter Email" />
                                     </div>
                                 </div>
-                                <div class="col-sm-12"><br></div>
                                 <div class="col-sm-6">
                                     <label class="col-md-12">Mobile :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
@@ -147,23 +165,39 @@
                                             data-required-message="Please Enter Mobile" data-min="10" />
                                     </div>
                                 </div>
+                                <div class="col-sm-12"><br></div>
+
                                 <div class="col-sm-6">
-                                    <label class="col-md-12">Subject :<strong style="color:Red">*</strong></label>
+                                    <label class="col-md-12">Class :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
-                                        <select name="subject" tabindex="2" class="form-control" data-required="true"
-                                            data-required-message="Please Select Subject">
-                                            <option value="">Select Subject</option>
-                                            <?php
-              while($row = mysql_fetch_array($get))
-              {
-                ?>
-                                            <option value="<?php echo $row['id'] ?>"><?php echo $row['subject'] ?>
-                                            </option>
-                                            <?php
-              }
-            ?>
-                                        </select>
+                                        <input name="class" type="text" id="class" tabindex="2" class="form-control"
+                                            data-required="true" data-required-message="Please Enter Class" />
                                     </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label class="col-sm-3">Gender :<strong style="color:Red">*</strong></label>
+                                    <div class="col-sm-12">
+
+                                        <div class="col-sm-2">
+                                            <label>
+                                                <input type="radio" name="gender" class="" data-required="true"
+                                                    value="MALE" tabindex="2" checked>
+
+                                                <i class="fa fa-male" aria-hidden="true"
+                                                    style="font-size:25px; cursor:pointer"></i>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label>
+                                                <input type="radio" name="gender" class="" data-required="true"
+                                                    value="FEMALE" tabindex="2">
+                                                <i class="fa fa-female" aria-hidden="true"
+                                                    style="font-size:25px; cursor:pointer"></i>
+                                            </label>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div class="col-sm-12"><br></div>
 
@@ -205,25 +239,21 @@
   {
       include("conn.inc.php");
       $id = $_REQUEST['id'];
-      $get = mysql_query("SELECT * from admin_master where id = '$id'");
+      $get = mysql_query("SELECT * from students where id = '$id'");
       $data = mysql_fetch_assoc($get);
-
-      $getSelectedSubject = mysql_query("SELECT * from facultysubjects where faculty_id	 = '$id'");
-      $selected = mysql_fetch_assoc($getSelectedSubject);
-
-      $getSubjects = mysql_query("SELECT *from subjects");
      ?>
                     <!-- Create subjects -->
                     <div class="portlet">
                         <div class="portlet-header">
                             <h3>
                                 <i class="fa fa-tasks"></i>
-                                Update Faculty :
+                                Update Student :
                             </h3>
                         </div>
                         <div class="portlet-content">
-                            <form method="post" id="validate-basic" action="faculties.php" class="form parsley-form"
+                            <form method="post" id="validate-basic" action="students.php" class="form parsley-form"
                                 data-validate="parsley" enctype="multipart/form-data">
+
                                 <input type="hidden" name="id" id="id" value="<?php echo $id; ?>">
                                 <div class="col-md-12">
                                     <div class="alert alert-danger"><strong>(Note:All marked(<strong
@@ -234,59 +264,95 @@
                                 <div class="col-sm-12"><br></div>
 
                                 <div class="col-sm-6">
-                                    <label class="col-md-12">Name :<strong style="color:Red">*</strong></label>
+                                    <label class="col-md-12">First Name :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
-                                        <input name="name" type="text" id="name" tabindex="2" class="form-control"
-                                            data-required="true" data-required-message="Please Enter Name"
-                                            value="<?php echo $data['name'] ?>" />
+                                        <input name="fname" type="text" id="fname" tabindex="2" class="form-control"
+                                            data-required="true" data-required-message="Please Enter Name" 
+                                            value="<?php echo $data['fname']; ?>"
+                                            />
                                     </div>
                                 </div>
+                                <div class="col-sm-6">
+                                    <label class="col-md-12">Last Name :<strong style="color:Red">*</strong></label>
+                                    <div class="form-group col-md-12">
+                                        <input name="lname" type="text" id="lname" tabindex="2" class="form-control"
+                                            data-required="true" data-required-message="Please Enter Name"
+                                            value="<?php echo $data['lname']; ?>"
+                                             />
+                                    </div>
+                                </div>
+                                <div class="col-sm-12"><br></div>
                                 <div class="col-sm-6">
                                     <label class="col-md-12">Email :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
                                         <input name="email" type="email" id="email" tabindex="2" class="form-control"
                                             data-required="true" data-required-message="Please Enter Email"
-                                            value="<?php echo $data['email'] ?>" />
+                                            value="<?php echo $data['email']; ?>"
+                                             />
                                     </div>
                                 </div>
-                                <div class="col-sm-12"><br></div>
                                 <div class="col-sm-6">
                                     <label class="col-md-12">Mobile :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
                                         <input name="mobile" type="text" id="mobile" tabindex="2" class="form-control"
                                             data-required="true" data-type="number"
-                                            data-required-message="Please Enter Mobile" data-min="10"
-                                            value="<?php echo $data['mobile'] ?>" />
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="col-md-12">Subject :<strong style="color:Red">*</strong></label>
-                                    <div class="form-group col-md-12">
-                                        <select name="subject" tabindex="2" class="form-control" data-required="true"
-                                            data-required-message="Please Select Subject">
-                                            <option value="">Select Subject</option>
-                                            <?php
-      while($row = mysql_fetch_array($getSubjects))
-      {
-        ?>
-                                            <option value="<?php echo $row['id'] ?>"
-                                                <?php if($row['id'] === $selected['subject_id']) echo 'selected="selected"' ?>>
-                                                <?php echo $row['subject'] ?>
-                                            </option>
-                                            <?php
-      }
-    ?>
-                                        </select>
+                                            data-required-message="Please Enter Mobile" data-min="10" 
+                                            value="<?php echo $data['mobile']; ?>"
+                                            />
                                     </div>
                                 </div>
                                 <div class="col-sm-12"><br></div>
 
+                                <div class="col-sm-6">
+                                    <label class="col-md-12">Class :<strong style="color:Red">*</strong></label>
+                                    <div class="form-group col-md-12">
+                                        <input name="class" type="text" id="class" tabindex="2" class="form-control"
+                                            data-required="true" data-required-message="Please Enter Class"
+                                            value="<?php echo $data['class']; ?>"
+                                             />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label class="col-sm-3">Gender :<strong style="color:Red">*</strong></label>
+                                    <div class="col-sm-12">
+                                    
+                                        <div class="col-sm-2">
+                                            <label>
+                                                <input type="radio" name="gender" class="" data-required="true"
+                                                    value="MALE" tabindex="2" 
+                                                    <?php
+                                                    if($data['gender'] === "MALE") echo "checked"
+                                                      ?>
+                                                    >
+
+                                                <i class="fa fa-male" aria-hidden="true"
+                                                    style="font-size:25px; cursor:pointer"></i>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label>
+                                                <input type="radio" name="gender" class="" data-required="true"
+                                                    value="FEMALE" tabindex="2"
+                                                    <?php
+                                                    if($data['gender'] === "FEMALE") echo "checked"
+                                                      ?>
+                                                    >
+                                                <i class="fa fa-female" aria-hidden="true"
+                                                    style="font-size:25px; cursor:pointer"></i>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-12"><br></div>
 
                                 <div class="col-sm-12" style="padding-left:30px;">
                                     <br>
                                     <button type="submit" class="btn btn-secondary btn-lg" name="edit" id="edit"
                                         tabindex="2">Update</button>
                                 </div>
+
                             </form>
                         </div>
                     </div>
@@ -306,12 +372,16 @@
 
                             <h3>
                                 <i class="fa fa-table"></i>
-                                Faculties&nbsp;&nbsp;
+                                Students&nbsp;&nbsp;
 
-
-                                <a href="faculties.php?create=y"><i class="fa fa-plus-square"></i></a>
-
-
+                <?php 
+                    if($_SESSION['type'] != "FACULTY"){
+                        ?>
+                           <a href="students.php?create=y"><i class="fa fa-plus-square"></i></a>
+                        <?php
+                    }
+                ?>
+                             
                             </h3>
 
                         </div> <!-- /.portlet-header -->
@@ -329,9 +399,14 @@
                                             <th style="text-align: center;">Name</th>
                                             <th style="text-align: center;">Email</th>
                                             <th style="text-align: center;">Mobile</th>
-                                            <th style="text-align: center;">Subject</th>
-                                            <th style="width:210px;">Update</th>
-                                            <th style="width:210px;">Delete</th>
+                                            <th style="text-align: center;">Class</th>
+                                            <th style="text-align: center;">Gender</th>
+                                            <th style="width:190px;">Update</th>
+                                            <?php
+                                            if($_SESSION['type'] != "FACULTY"){
+                                                echo '<th style="width:190px;">Delete</th>';
+                                            }
+                                            ?>
 
                                         </tr>
 
@@ -339,7 +414,7 @@
                                     <tbody>
                                         <?php
          include("conn.inc.php");
-               $get = mysql_query("SELECT *from admin_master where type='FACULTY' order by id desc");
+               $get = mysql_query("SELECT *from students  order by id desc");
                $i = 1;
                while($row = mysql_fetch_array($get))
                {
@@ -350,7 +425,7 @@
                                             </td>
 
                                             <td style="text-align: center; vertical-align: middle;font-weight:bold">
-                                                <?php echo $row['name']; ?>
+                                                <?php echo $row['fname'] . ' ' . $row['lname']; ?>
                                             </td>
                                             <td style="text-align: center; vertical-align: middle;">
                                                 <?php echo $row['email']; ?>
@@ -358,25 +433,36 @@
                                             <td style="text-align: center; vertical-align: middle;">
                                                 <?php echo $row['mobile']; ?>
                                             </td>
+
+                                            <td style="text-align: center; vertical-align: middle;">
+                                                <?php echo $row['class']; ?>
+                                            </td>
                                             <td style="text-align: center; vertical-align: middle;">
                                                 <?php 
-    $getSubjectId =  mysql_query("SELECT *from facultysubjects where 	faculty_id='$row[0]'");
-    $subject = mysql_fetch_assoc($getSubjectId);
-    $id = $subject["subject_id"];
-    $getsubjectName = mysql_query("SELECT * from subjects where id='$id'");
-    $subjects = mysql_fetch_assoc($getsubjectName);
-    echo $subjects['subject'];
-                                                ?>
+                                                if($row['gender'] == 'MALE'){
+                                                    echo '<i class="fa fa-male" aria-hidden="true" style="font-size:25px; cursor:pointer"></i>';
+                                                }
+                                                else{
+                                                    echo '<i class="fa fa-female" aria-hidden="true" style="font-size:25px; cursor:pointer"></i>';
+                                                }
+                                                 ?>
                                             </td>
 
-                                            <td><a href="faculties.php?update=y&id=<?php echo $row['id']; ?>"><button
+                                            <td><a href="students.php?update=y&id=<?php echo $row['id']; ?>"><button
                                                         class="btn btn-secondary" type="button">Update</button></a></td>
 
-                                            <td>
-                                                <a href="faculties.php?remove=y&id=<?php echo $row['id']; ?>"
-                                                    onclick="return confirm('Are you sure you have to Remove this Faculty  ??')"><button
+                                                        <?php
+                                                         if($_SESSION['type'] != "FACULTY"){
+                                                             ?>
+     <td>
+                                                <a href="students.php?remove=y&id=<?php echo $row['id']; ?>"
+                                                    onclick="return confirm('Are you sure you have to Remove this Student  ??')"><button
                                                         class="btn btn-primary">Delete</button></a>
                                             </td>
+                                                             <?php
+                                                         }
+                                                        ?>
+                                       
                                         </tr>
 
                                         <?php 

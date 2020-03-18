@@ -9,7 +9,10 @@ if(isset($_REQUEST['btnLogin']))
 		$result = mysql_query("SELECT * from admin_master where email = '$uname' and password = '$pass'");
 		$num_rows = mysql_num_rows($result);
 		$row=mysql_fetch_array($result);
-		
+    
+    $getUser = mysql_query("SELECT * from students where email = '$uname' and password = '$pass'");
+    $num_rowsUser = mysql_num_rows($getUser);
+    
 		$_SESSION['type'] = "";
 		
 			
@@ -27,7 +30,18 @@ if(isset($_REQUEST['btnLogin']))
       echo "<script type='text/javascript'>window.location='dashboard.php'</script>"; 
       
 		}
-		
+		else if($num_rowsUser == 1){
+	  	$row=mysql_fetch_array($getUser);
+      $_SESSION['name'] = $row["fname"] . ' ' . $row["lname"];
+			$_SESSION['login'] = "1";
+			$_SESSION['id']= $row[0];
+			$_SESSION['type']= "STUDENT";
+			$address=$_SERVER['REMOTE_ADDR'];
+			mysql_query("INSERT into history values(NULL,'$uname',now(),'$address')");
+			 
+      echo "<script type='text/javascript'>window.location='dashboard.php'</script>"; 
+      
+    }
 		else
 		{
 			$_SESSION['login'] = "";	

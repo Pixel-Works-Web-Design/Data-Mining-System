@@ -74,9 +74,20 @@
 
           <ul class="dropdown-menu" role="menu">
 
-   
+          <li>
+             <a href="
+             <?php 
+             if($_SESSION['type'] !== "STUDENT") echo "profile.php";
+             else echo "student_profile.php";
+             ?>
+             
+             ">
+                <i class="fa fa-user"></i> 
+                &nbsp;&nbsp;My Profile
+              </a>
+            </li>
          <li>
-             <a href="update_password.php">
+             <a href="change_password.php">
                 <i class="fa fa-dollar"></i> 
                 &nbsp;&nbsp;Change My Password
               </a>
@@ -141,22 +152,43 @@
           </ul>
         </li>
           
- 
-        <li>
+  <?php
+  if($_SESSION['type'] === "MASTERADMIN"){
+?>
+<li>
           <a href="faculties.php">
             <i class="fa fa-male"></i>
             Faculties
           </a>
         </li>
-
+<?php
+  }
+  ?>
+         <?php
+  if($_SESSION['type'] != "STUDENT"){
+?>
         <li>
-          <a href="users.php">
-            <i class="fa fa-users"></i>
+          <a href="students.php">
+            <i class="fa fa-user"></i>
            Students
           </a>
         </li>
+        <?php
+  }
+  ?>
 
-  
+        <?php
+  if($_SESSION['type'] === "MASTERADMIN"){
+?>
+        <li>
+          <a href="users.php">
+            <i class="fa fa-users"></i>
+           Users
+          </a>
+        </li>
+        <?php
+  }
+  ?>
       </ul>
     </div> <!-- /.navbar-collapse -->   
   </div> <!-- /.container --> 
