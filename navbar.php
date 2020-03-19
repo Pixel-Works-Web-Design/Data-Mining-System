@@ -36,6 +36,11 @@ if($_SESSION['type'] === "MASTERADMIN"){
             Subjects
           </a>
         </li>
+        <li>
+          <a href="surveyView.php"><i class="fa fa-eye nav-icon"></i> 
+            Survey Form
+          </a>
+        </li>
 <?php } ?>
       </ul>
     </li>
