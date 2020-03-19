@@ -1,17 +1,30 @@
 <?php include_once("header.inc.php");
    include("conn.inc.php");
    
-   
    if(isset($_REQUEST["saveSurvey"]))
    {
     include("conn.inc.php");
+    
     $get = mysql_query("SELECT * from survey");
     $studentId = $_SESSION['id'];
+
     while($row = mysql_fetch_array($get)){
         $survey= $row['id'];
         $value= addslashes($_REQUEST[$survey]);
-        mysql_query("INSERT into studentSurvey values(NULL,'$studentId','$survey','$value')");
+
+        if($row['hasOther'] === "YES"){
+            $otherValue= addslashes($_REQUEST[$survey.'otherValue']);
+            mysql_query("INSERT into studentSurvey values(NULL,'$studentId','$survey','$value','$otherValue')");
+        }
+        else{
+            mysql_query("INSERT into studentSurvey values(NULL,'$studentId','$survey','$value',NULL)");
+        }
     }
+
+    mysql_query("UPDATE students set isSurveyFill = 'YES' where id = '$studentId'");
+    $_SESSION['isSurveyFill'] = 'YES';
+
+    echo "<script type='text/javascript'>window.location='dashboard.php'</script>"; 
 	}
 ?>
 <link rel="stylesheet" href="css/checkbox.css">
@@ -53,6 +66,7 @@
                         if($row['value'] === "INPUT"){
                             ?>
                         <div class="form-group">
+
                             <textarea data-required="true" tabindex="2"
                                 data-required-message="<?php echo str_replace('?', '', $row['title']) . ' field is Required.'; ?>"
                                 data-minlength="3" name="<?php echo $row['id']; ?>" id="<?php echo $row['id']; ?>"
@@ -64,12 +78,12 @@
                             ?>
                         <div>
                             <div class="col-md-3">
-                                <input type="radio" value="YES"  name="<?php echo $row['id']; ?>" id="<?php echo $row['id']; ?>"
-                                    tabindex="2">
+                                <input type="radio" value="YES" name="<?php echo $row['id']; ?>"
+                                    id="<?php echo $row['id']; ?>" tabindex="2">
                                 <label for="<?php echo $row['id']; ?>">Yes</label>
                             </div>
-                            <input type="radio" value="NO" name="<?php echo $row['id']; ?>" id="<?php echo $row['title']; ?>"
-                                tabindex="2" checked>
+                            <input type="radio" value="NO" name="<?php echo $row['id']; ?>"
+                                id="<?php echo $row['title']; ?>" tabindex="2" checked>
                             <label for="<?php echo $row['title']; ?>">NO</label>
                         </div>
                         <?php
@@ -78,20 +92,37 @@
                             ?>
                         <div style="margin-left:20px;">
                             <?php
+                            $hasOther = $row['hasOther'] === 'YES';
                                 $data = json_decode($row['options']);
                                 foreach($data as $key=>$item) {
+                                    $idName='';
+                                    if($hasOther && $key+1 === count($data)){
+                                        $idName = $item.$row['id'].'hasOther';
+                                    }
+                                    else{
+                                        $idName = $item.$row['id'];
+                                    }
                                    ?>
-                            <input type="radio" name="<?php echo $row['id']; ?>" id="<?php echo $item.$row['id']; ?>" tabindex="2"
-                                <?php if($key === 0) echo 'checked'; ?> value="<?php echo $item; ?> ">
-                            <label for="<?php echo $item.$row['id']; ?>">
+                            <input type="radio" name="<?php echo $row['id']; ?>" id="<?php echo $idName; ?>"
+                                tabindex="2" <?php if($key === 0) echo 'checked'; ?> value="<?php echo $item; ?> ">
+                            <label for="<?php echo $idName; ?>">
                                 <?php echo $item; ?>
                             </label>
                             <span style="margin-left:15px;"></span>
+
+
                             <?php
                                   }
                                   ?>
                         </div>
                         <?php
+                        if($row['hasOther'] === 'YES'){
+                            ?>
+                        <input name="<?php echo $row['id'].'otherValue'; ?>" type="text"
+                            id="<?php echo $row['id'].'otherValue'; ?>" tabindex="2" class="form-control"
+                            style="display:none; margin-left:20px; margin-top:10px;" />
+                        <?php
+                        }
                         }
                         ?>
                     </div> <!-- /.col -->
@@ -121,7 +152,25 @@
         </div>
     </div>
 </div>
-<script src="js/plugins/icheck/jquery.icheck.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('input[type="radio"]').click(function() {
+        var name = $(this).attr("name");
+        var id = $(this).attr("id");
+        var inputView = `${name}otherValue`
+        var hasOther = id.search("hasOther")
+
+        if (hasOther >= 0) {
+            $(`#${inputView}`).css("display", "block")
+        } else {
+            $(`#${inputView}`).css("display", "none")
+            $(`#${inputView}`).val("")
+        }
+    });
+});
+</script>
 
 <?php  include_once("footer.inc.php");?>
 

@@ -118,7 +118,6 @@
 if(!($_SESSION['type'] === 'STUDENT' && $_SESSION['isSurveyFill'] === 'NO')){
   include_once("navbar.php");
 }
-
 ?>
 </div> <!-- /.mainbar -->
 <?php if(isset($_SESSION['id'])) {
