@@ -35,11 +35,17 @@ if(isset($_REQUEST['btnLogin']))
       $_SESSION['name'] = $row["fname"] . ' ' . $row["lname"];
 			$_SESSION['login'] = "1";
 			$_SESSION['id']= $row[0];
-			$_SESSION['type']= "STUDENT";
+      $_SESSION['type']= "STUDENT";
+      $_SESSION['isSurveyFill']= $row['isSurveyFill'];
 			$address=$_SERVER['REMOTE_ADDR'];
 			mysql_query("INSERT into history values(NULL,'$uname',now(),'$address')");
-			 
-      echo "<script type='text/javascript'>window.location='dashboard.php'</script>"; 
+       
+      if($row['isSurveyFill'] === 'NO'){
+        echo "<script type='text/javascript'>window.location='surveys.php'</script>";   
+      }
+      else{
+        echo "<script type='text/javascript'>window.location='dashboard.php'</script>"; 
+      }
       
     }
 		else
