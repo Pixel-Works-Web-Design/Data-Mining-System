@@ -53,7 +53,7 @@
       </button>
 
       <a class="navbar-brand navbar-brand-image" href="dashboard.php">
-        <img src="photos/logo.png" alt="Site Logos" style="height:100%;">
+        <img src="photos/pixelworkslogo.png" alt="Admin Panel Logo" style="width: 100%; height: 60px;">
       </a>
 
     </div> <!-- /.navbar-header -->

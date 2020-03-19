@@ -397,14 +397,15 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
                                         <tr>
                                             <th style="text-align: center;">No</th>
                                             <th style="text-align: center;">Name</th>
+                                            <th style="text-align: center;">Survey</th>
                                             <th style="text-align: center;">Email</th>
                                             <th style="text-align: center;">Mobile</th>
                                             <th style="text-align: center;">Class</th>
                                             <th style="text-align: center;">Gender</th>
-                                            <th style="width:190px;">Update</th>
+                                            <th style="width:170px;">Update</th>
                                             <?php
                                             if($_SESSION['type'] != "FACULTY"){
-                                                echo '<th style="width:190px;">Delete</th>';
+                                                echo '<th style="width:170px;">Delete</th>';
                                             }
                                             ?>
 
@@ -426,6 +427,17 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
 
                                             <td style="text-align: center; vertical-align: middle;font-weight:bold">
                                                 <?php echo $row['fname'] . ' ' . $row['lname']; ?>
+                                            </td>
+                                            <td style="text-align: center; vertical-align: middle;font-weight:bold">
+                                            <?php 
+                                            $id = $row['id'];
+                                                if($row['isSurveyFill'] === 'YES'){
+                                                    echo "<a href='studentSurvey.php?&id=$id'>Survey Detail</a>";
+                                                }else{
+                                                    echo '<h1>-</h1>';
+                                                }
+                                            ?>
+                                                
                                             </td>
                                             <td style="text-align: center; vertical-align: middle;">
                                                 <?php echo $row['email']; ?>

@@ -24,7 +24,7 @@
     mysql_query("UPDATE students set isSurveyFill = 'YES' where id = '$studentId'");
     $_SESSION['isSurveyFill'] = 'YES';
 
-    echo "<script type='text/javascript'>window.location='dashboard.php'</script>"; 
+    echo "<script type='text/javascript'>window.location='surveys.php?done=y'</script>"; 
 	}
 ?>
 <link rel="stylesheet" href="css/checkbox.css">
@@ -40,7 +40,16 @@
                 <h2 class="content-header-title text-center">Survey Form</h2>
             </div>
 
+            <?php if(isset($_REQUEST['done'])) {?>
+            <div class="alert alert-success">
+                <a class="close" data-dismiss="alert" href="#" aria-hidden="true">×</a>
+                <strong>Succesfully! </strong> Survey Created , Thanks For Your Feedback.
+            </div>
 
+            <?php 
+            echo "<script type='text/javascript'>setTimeout(function(){ window.location='dashboard.php' }, 2000);</script>";
+        }
+         ?>
             <form method="post" id="validate-basic" action="surveys.php" class="form parsley-form form-horizontal"
                 data-validate="parsley" enctype="multipart/form-data">
 
@@ -57,7 +66,7 @@
                     </label>
 
                     <div class="col-md-7">
-                        <label class="col-md-12" style="margin-left:-28px;">
+                        <label class="col-md-12" style="margin-left:-28px; color:gray; font-family:Comic Sans MS; font-size:17px;">
                             <?php 
                     echo "(".$i.")   " . $row['title'] ;
                     ?>
@@ -66,7 +75,6 @@
                         if($row['value'] === "INPUT"){
                             ?>
                         <div class="form-group">
-
                             <textarea data-required="true" tabindex="2"
                                 data-required-message="<?php echo str_replace('?', '', $row['title']) . ' field is Required.'; ?>"
                                 data-minlength="3" name="<?php echo $row['id']; ?>" id="<?php echo $row['id']; ?>"
@@ -76,7 +84,7 @@
                         }
                         else if($row['value'] === "TOGGLE"){
                             ?>
-                        <div>
+                        <div style=" margin-top:40px; margin-bottom:17px;">
                             <div class="col-md-3">
                                 <input type="radio" value="YES" name="<?php echo $row['id']; ?>"
                                     id="<?php echo $row['id']; ?>" tabindex="2">
@@ -90,7 +98,7 @@
                         }
                         else{
                             ?>
-                        <div style="margin-left:20px;">
+                        <div style="margin-left:20px; margin-top:40px; margin-bottom:20px;">
                             <?php
                             $hasOther = $row['hasOther'] === 'YES';
                                 $data = json_decode($row['options']);
@@ -128,7 +136,7 @@
                     </div> <!-- /.col -->
 
                 </div> <!-- /.form-group -->
-                <hr>
+                <!-- <hr> -->
 
                 <?php
                   $i++;

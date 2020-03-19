@@ -174,7 +174,7 @@ if(isset($_REQUEST['btnLogin']))
           </div>--->
 
           <div class="pull-right">
-            <a href="account-forgot.html">Forgot Password?</a>
+            <a href="#">Forgot Password?</a>
           </div>
         </div> <!-- /.form-group -->
 

@@ -30,7 +30,7 @@
 
               <h3>
                 <i class="fa fa-table"></i>
-                 Lists&nbsp;&nbsp;
+                 Dashboard&nbsp;&nbsp;
               </h3>
 
             </div> <!-- /.portlet-header -->
@@ -48,15 +48,10 @@
               >
                   <thead>
                   <tr>
-                     <th>Photo</th>
-                     <th>Full Name</th>
-                    
-                   
+                     <th>Data</th>
                   </thead>
                   <tbody>
                     <td>Under the construction</td>
-                     <td>Under the construction</td>
-                    
               
                   </tbody>
                 </table>
