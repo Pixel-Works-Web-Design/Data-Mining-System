@@ -1,19 +1,22 @@
 <?php include_once("header.inc.php");?>
 
 <?php
+include "conn.inc.php";
+include "helper.php";
  // Insert Record
   if(isset($_REQUEST['save']))
   {
-      
-       include("conn.inc.php");
-
         $name = ucfirst(addslashes($_REQUEST['name']));
         $email = addslashes($_REQUEST['email']);
         $mobile = addslashes($_REQUEST['mobile']);
         $password = addslashes($_REQUEST['password']);
         $passwordMD = md5($_REQUEST['password']);
 
-        mysql_query("INSERT into admin_master values(NULL,'$name','$email','$mobile','$passwordMD','MASTERADMIN','$password')");
+        if (checkAdminEmail($email)) {
+            echo "<script type='text/javascript'>alert('Email ID Already In Use.')</script>";
+        } else {
+            mysql_query("INSERT into admin_master values(NULL,'$name','$email','$mobile','$passwordMD','MASTERADMIN','$password')");
+        }
       
       echo "<script type='text/javascript'>window.location='users.php'</script>";
 
@@ -21,19 +24,20 @@
      
   if(isset($_REQUEST['edit']))
   {
-      
-      include("conn.inc.php");
-
       $id = $_REQUEST['id'];
       $name = ucfirst(addslashes($_REQUEST['name']));
       $email = addslashes($_REQUEST['email']);
       $mobile = addslashes($_REQUEST['mobile']);
-    
-      mysql_query("UPDATE admin_master set name = '$name' ,
-       email = '$email',
-       mobile = '$mobile'
-        where id = '$id'");
+   
+      if (checkAdminEmail($email,$id)) {
+        echo "<script type='text/javascript'>alert('Email ID Already In Use.')</script>";
+    } else {
 
+        mysql_query("UPDATE admin_master set name = '$name' ,
+        email = '$email',
+        mobile = '$mobile'
+         where id = '$id'"); 
+    }
      echo "<script type='text/javascript'>window.location='users.php'</script>";
 
   }

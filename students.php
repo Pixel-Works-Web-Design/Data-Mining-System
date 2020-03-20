@@ -1,64 +1,75 @@
-<?php include_once("header.inc.php");?>
+<?php include_once "header.inc.php";?>
 
 <?php
- // Insert Record
-  if(isset($_REQUEST['save']))
-  {
-      
-       include("conn.inc.php");
+include "conn.inc.php";
+include "helper.php";
 
-        $fname = ucfirst(addslashes($_REQUEST['fname']));
-        $lname = ucfirst(addslashes($_REQUEST['lname']));
-        $email = addslashes($_REQUEST['email']);
-        $mobile = addslashes($_REQUEST['mobile']);
-        $class = addslashes($_REQUEST['class']);
-        $gender = addslashes($_REQUEST['gender']);
-        $password = addslashes($_REQUEST['password']);
-        $passwordMD = md5($_REQUEST['password']);
+// Insert Record
+if (isset($_REQUEST['save'])) {
 
-        mysql_query("INSERT into students(
-            id,fname,lname,email,mobile,class,gender,password,passwordVisibility
-        ) values(
-            NULL,
-            '$fname',
-            '$lname',
-            '$email',
-            '$mobile',
-            '$class',
-            '$gender',
-            '$passwordMD',
-            '$password')
-            ");
-      
-      echo "<script type='text/javascript'>window.location='students.php'</script>";
-
-  }
-     
-  if(isset($_REQUEST['edit']))
-  {
-      
-      include("conn.inc.php");
-
-      $id = $_REQUEST['id'];
-      $fname = ucfirst(addslashes($_REQUEST['fname']));
+    $fname = ucfirst(addslashes($_REQUEST['fname']));
     $lname = ucfirst(addslashes($_REQUEST['lname']));
     $email = addslashes($_REQUEST['email']);
     $mobile = addslashes($_REQUEST['mobile']);
     $class = addslashes($_REQUEST['class']);
+    $grno = addslashes($_REQUEST['grno']);
+    $gender = addslashes($_REQUEST['gender']);
+    $password = addslashes($_REQUEST['password']);
+    $passwordMD = md5($_REQUEST['password']);
+
+    if (checkSudentEmailAndGr($email, $grno)) {
+
+        echo "<script type='text/javascript'>alert('Email ID OR GR.NO Already In Use.')</script>";
+    } else {
+        mysql_query("INSERT into students(
+                        id,fname,lname,email,mobile,class,gr_no,gender,password,passwordVisibility
+                    ) values(
+                        NULL,
+                        '$fname',
+                        '$lname',
+                        '$email',
+                        '$mobile',
+                        '$class',
+                        '$grno',
+                        '$gender',
+                        '$passwordMD',
+                        '$password')
+                        ");
+    }
+
+    echo "<script type='text/javascript'>window.location='students.php'</script>";
+
+}
+
+if (isset($_REQUEST['edit'])) {
+
+    $id = $_REQUEST['id'];
+    $fname = ucfirst(addslashes($_REQUEST['fname']));
+    $lname = ucfirst(addslashes($_REQUEST['lname']));
+    $email = addslashes($_REQUEST['email']);
+    $mobile = addslashes($_REQUEST['mobile']);
+    $class = addslashes($_REQUEST['class']);
+    $grno = addslashes($_REQUEST['grno']);
     $gender = addslashes($_REQUEST['gender']);
 
-mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
-       email = '$email',
+    if (checkSudentEmailAndGr($email, $grno, $id)) {
+
+        echo "<script type='text/javascript'>alert('Email ID OR GR.NO Already In Use.')</script>";
+    } else {
+        mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
        mobile = '$mobile',
        class = '$class',
+       gr_no = '$grno',
        gender = '$gender'
         where id = '$id'");
-     
-     echo "<script type='text/javascript'>window.location='students.php'</script>";
 
-  }
-  // End of Insert Record  
-  ?>
+    }
+
+    echo "<script type='text/javascript'>window.location='students.php'</script>";
+
+}
+// End of Insert Record
+?>
 
 
 <style type="text/css">
@@ -102,18 +113,15 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
                 <div class="col-md-12">
 
                     <?php
- 
-  if(isset($_REQUEST['remove']))
-  {
-      include("conn.inc.php");
-     $id = $_REQUEST['id'];
-     $check = mysql_query("DELETE  from students where id = '$id'");
-       
-       echo "<script type='text/javascript'>window.location='students.php'</script>";
-    }
-    else if(isset($_REQUEST['create']))
-  {
-    include("conn.inc.php");
+
+if (isset($_REQUEST['remove'])) {
+    include "conn.inc.php";
+    $id = $_REQUEST['id'];
+    $check = mysql_query("DELETE  from students where id = '$id'");
+
+    echo "<script type='text/javascript'>window.location='students.php'</script>";
+} else if (isset($_REQUEST['create'])) {
+    include "conn.inc.php";
     ?>
                     <!-- Create subjects -->
                     <div class="portlet">
@@ -139,14 +147,14 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
                                     <label class="col-md-12">First Name :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
                                         <input name="fname" type="text" id="fname" tabindex="2" class="form-control"
-                                            data-required="true" data-required-message="Please Enter Name" />
+                                            data-required="true" data-required-message="Please Enter First Name" />
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="col-md-12">Last Name :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
                                         <input name="lname" type="text" id="lname" tabindex="2" class="form-control"
-                                            data-required="true" data-required-message="Please Enter Name" />
+                                            data-required="true" data-required-message="Please Enter Last Name" />
                                     </div>
                                 </div>
                                 <div class="col-sm-12"><br></div>
@@ -167,13 +175,21 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
                                 </div>
                                 <div class="col-sm-12"><br></div>
 
-                                <div class="col-sm-6">
+                                <div class="col-sm-3">
+                                    <label class="col-md-12">GR.NO. :<strong style="color:Red">*</strong></label>
+                                    <div class="form-group col-md-12">
+                                        <input name="grno" type="text" id="grno" tabindex="2" class="form-control"
+                                            data-required="true" data-required-message="Please Enter GR.NO" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
                                     <label class="col-md-12">Class :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
                                         <input name="class" type="text" id="class" tabindex="2" class="form-control"
                                             data-required="true" data-required-message="Please Enter Class" />
                                     </div>
                                 </div>
+
 
                                 <div class="col-sm-6">
                                     <label class="col-sm-3">Gender :<strong style="color:Red">*</strong></label>
@@ -234,14 +250,12 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
                     <!-- End of Create subjects -->
 
                     <?php
-  }
-  else if(isset($_REQUEST['update']))
-  {
-      include("conn.inc.php");
-      $id = $_REQUEST['id'];
-      $get = mysql_query("SELECT * from students where id = '$id'");
-      $data = mysql_fetch_assoc($get);
-     ?>
+} else if (isset($_REQUEST['update'])) {
+    include "conn.inc.php";
+    $id = $_REQUEST['id'];
+    $get = mysql_query("SELECT * from students where id = '$id'");
+    $data = mysql_fetch_assoc($get);
+    ?>
                     <!-- Create subjects -->
                     <div class="portlet">
                         <div class="portlet-header">
@@ -267,7 +281,7 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
                                     <label class="col-md-12">First Name :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
                                         <input name="fname" type="text" id="fname" tabindex="2" class="form-control"
-                                            data-required="true" data-required-message="Please Enter Name" 
+                                            data-required="true" data-required-message="Please Enter First Name"
                                             value="<?php echo $data['fname']; ?>"
                                             />
                                     </div>
@@ -276,7 +290,7 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
                                     <label class="col-md-12">Last Name :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
                                         <input name="lname" type="text" id="lname" tabindex="2" class="form-control"
-                                            data-required="true" data-required-message="Please Enter Name"
+                                            data-required="true" data-required-message="Please Enter Last Name"
                                             value="<?php echo $data['lname']; ?>"
                                              />
                                     </div>
@@ -288,7 +302,7 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
                                         <input name="email" type="email" id="email" tabindex="2" class="form-control"
                                             data-required="true" data-required-message="Please Enter Email"
                                             value="<?php echo $data['email']; ?>"
-                                             />
+                                             disabled/>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -296,14 +310,21 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
                                     <div class="form-group col-md-12">
                                         <input name="mobile" type="text" id="mobile" tabindex="2" class="form-control"
                                             data-required="true" data-type="number"
-                                            data-required-message="Please Enter Mobile" data-min="10" 
+                                            data-required-message="Please Enter Mobile" data-min="10"
                                             value="<?php echo $data['mobile']; ?>"
                                             />
                                     </div>
                                 </div>
                                 <div class="col-sm-12"><br></div>
 
-                                <div class="col-sm-6">
+                                <div class="col-sm-3">
+                                    <label class="col-md-12">GR.NO. :<strong style="color:Red">*</strong></label>
+                                    <div class="form-group col-md-12">
+                                        <input name="grno" type="text" id="grno" tabindex="2" class="form-control"
+                                            data-required="true" data-required-message="Please Enter GR.NO" value="<?php echo $data['gr_no']; ?>"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
                                     <label class="col-md-12">Class :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
                                         <input name="class" type="text" id="class" tabindex="2" class="form-control"
@@ -316,14 +337,17 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
                                 <div class="col-sm-6">
                                     <label class="col-sm-3">Gender :<strong style="color:Red">*</strong></label>
                                     <div class="col-sm-12">
-                                    
+
                                         <div class="col-sm-2">
                                             <label>
                                                 <input type="radio" name="gender" class="" data-required="true"
-                                                    value="MALE" tabindex="2" 
+                                                    value="MALE" tabindex="2"
                                                     <?php
-                                                    if($data['gender'] === "MALE") echo "checked"
-                                                      ?>
+if ($data['gender'] === "MALE") {
+        echo "checked"
+        ;
+    }
+    ?>
                                                     >
 
                                                 <i class="fa fa-male" aria-hidden="true"
@@ -335,8 +359,11 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
                                                 <input type="radio" name="gender" class="" data-required="true"
                                                     value="FEMALE" tabindex="2"
                                                     <?php
-                                                    if($data['gender'] === "FEMALE") echo "checked"
-                                                      ?>
+if ($data['gender'] === "FEMALE") {
+        echo "checked"
+        ;
+    }
+    ?>
                                                     >
                                                 <i class="fa fa-female" aria-hidden="true"
                                                     style="font-size:25px; cursor:pointer"></i>
@@ -361,12 +388,11 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
                     <!-- End of Create subjects -->
 
                     <?php
-  }
-  else{
+} else {
 
 // Show Data
 
-          ?>
+    ?>
                     <div class="portlet">
                         <div class="portlet-header">
 
@@ -374,14 +400,14 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
                                 <i class="fa fa-table"></i>
                                 Students&nbsp;&nbsp;
 
-                <?php 
-                    if($_SESSION['type'] != "FACULTY"){
-                        ?>
+                <?php
+if ($_SESSION['type'] != "FACULTY") {
+        ?>
                            <a href="students.php?create=y"><i class="fa fa-plus-square"></i></a>
                         <?php
-                    }
-                ?>
-                             
+}
+    ?>
+
                             </h3>
 
                         </div> <!-- /.portlet-header -->
@@ -395,7 +421,7 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
                                     data-length-change="true" data-paginate="true">
                                     <thead>
                                         <tr>
-                                            <th style="text-align: center;">No</th>
+                                            <th style="text-align: center;">GR.NO</th>
                                             <th style="text-align: center;">Name</th>
                                             <th style="text-align: center;">Survey</th>
                                             <th style="text-align: center;">Email</th>
@@ -404,40 +430,39 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
                                             <th style="text-align: center;">Gender</th>
                                             <th style="width:170px;">Update</th>
                                             <?php
-                                            if($_SESSION['type'] != "FACULTY"){
-                                                echo '<th style="width:170px;">Delete</th>';
-                                            }
-                                            ?>
+if ($_SESSION['type'] != "FACULTY") {
+        echo '<th style="width:170px;">Delete</th>';
+    }
+    ?>
 
                                         </tr>
 
                                     </thead>
                                     <tbody>
                                         <?php
-         include("conn.inc.php");
-               $get = mysql_query("SELECT *from students  order by id desc");
-               $i = 1;
-               while($row = mysql_fetch_array($get))
-               {
-                ?>
+include "conn.inc.php";
+    $get = mysql_query("SELECT *from students  order by id desc");
+    $i = 1;
+    while ($row = mysql_fetch_array($get)) {
+        ?>
                                         <tr>
 
-                                            <td style="text-align: center; vertical-align: middle;"><?php echo $i; ?>
+                                            <td style="text-align: center; vertical-align: middle;"><?php echo $row['gr_no']; ?>
                                             </td>
 
                                             <td style="text-align: center; vertical-align: middle;font-weight:bold">
                                                 <?php echo $row['fname'] . ' ' . $row['lname']; ?>
                                             </td>
                                             <td style="text-align: center; vertical-align: middle;font-weight:bold">
-                                            <?php 
-                                            $id = $row['id'];
-                                                if($row['isSurveyFill'] === 'YES'){
-                                                    echo "<a href='studentSurvey.php?&id=$id'>Survey Detail</a>";
-                                                }else{
-                                                    echo '<h1>-</h1>';
-                                                }
-                                            ?>
-                                                
+                                            <?php
+$id = $row['id'];
+        if ($row['isSurveyFill'] === 'YES') {
+            echo "<a href='studentSurvey.php?&id=$id'>Survey Detail</a>";
+        } else {
+            echo '<h1>-</h1>';
+        }
+        ?>
+
                                             </td>
                                             <td style="text-align: center; vertical-align: middle;">
                                                 <?php echo $row['email']; ?>
@@ -450,37 +475,36 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
                                                 <?php echo $row['class']; ?>
                                             </td>
                                             <td style="text-align: center; vertical-align: middle;">
-                                                <?php 
-                                                if($row['gender'] == 'MALE'){
-                                                    echo '<i class="fa fa-male" aria-hidden="true" style="font-size:25px; cursor:pointer"></i>';
-                                                }
-                                                else{
-                                                    echo '<i class="fa fa-female" aria-hidden="true" style="font-size:25px; cursor:pointer"></i>';
-                                                }
-                                                 ?>
+                                                <?php
+if ($row['gender'] == 'MALE') {
+            echo '<i class="fa fa-male" aria-hidden="true" style="font-size:25px; cursor:pointer"></i>';
+        } else {
+            echo '<i class="fa fa-female" aria-hidden="true" style="font-size:25px; cursor:pointer"></i>';
+        }
+        ?>
                                             </td>
 
                                             <td><a href="students.php?update=y&id=<?php echo $row['id']; ?>"><button
                                                         class="btn btn-secondary" type="button">Update</button></a></td>
 
                                                         <?php
-                                                         if($_SESSION['type'] != "FACULTY"){
-                                                             ?>
+if ($_SESSION['type'] != "FACULTY") {
+            ?>
      <td>
                                                 <a href="students.php?remove=y&id=<?php echo $row['id']; ?>"
                                                     onclick="return confirm('Are you sure you have to Remove this Student  ??')"><button
                                                         class="btn btn-primary">Delete</button></a>
                                             </td>
                                                              <?php
-                                                         }
-                                                        ?>
-                                       
+}
+        ?>
+
                                         </tr>
 
-                                        <?php 
-                    $i++;
-                  } 
-                  ?>
+                                        <?php
+$i++;
+    }
+    ?>
 
 
                                     </tbody>
@@ -495,9 +519,9 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
 
 
                     <?php
-      }  // End of Show Data
+} // End of Show Data
 
-      ?>
+?>
 
 
                 </div>
@@ -509,9 +533,9 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
 
         <!-- /.row -->
 
-        <!--  </div>  
-      
-  </div>  
+        <!--  </div>
+
+  </div>
 
 </div>-->
 
@@ -520,9 +544,9 @@ mysql_query("UPDATE students set fname = '$fname' ,lname = '$lname',
 </div>
 
 
-<?php include_once("footer.inc.php");?>
+<?php include_once "footer.inc.php";?>
 
-<?php include_once("closebody.php");?>
+<?php include_once "closebody.php";?>
 
 <script src="js/plugins/magnific/jquery.magnific-popup.min.js"></script>
 <script type="text/javascript" src="ckeditor/ckeditor.js"></script>

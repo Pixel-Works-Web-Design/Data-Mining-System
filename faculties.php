@@ -1,52 +1,56 @@
-<?php include_once("header.inc.php");?>
+<?php include_once "header.inc.php";?>
 
 <?php
- // Insert Record
-  if(isset($_REQUEST['save']))
-  {
-      
-       include("conn.inc.php");
+include "conn.inc.php";
+include "helper.php";
+// Insert Record
+if (isset($_REQUEST['save'])) {
+    $name = ucfirst(addslashes($_REQUEST['name']));
+    $email = addslashes($_REQUEST['email']);
+    $mobile = addslashes($_REQUEST['mobile']);
+    $subject = addslashes($_REQUEST['subject']);
+    $password = addslashes($_REQUEST['password']);
+    $passwordMD = md5($_REQUEST['password']);
 
-        $name = ucfirst(addslashes($_REQUEST['name']));
-        $email = addslashes($_REQUEST['email']);
-        $mobile = addslashes($_REQUEST['mobile']);
-        $subject = addslashes($_REQUEST['subject']);
-        $password = addslashes($_REQUEST['password']);
-        $passwordMD = md5($_REQUEST['password']);
-
+    if (checkAdminEmail($email)) {
+        echo "<script type='text/javascript'>alert('Email ID Already In Use.')</script>";
+    } else {
         mysql_query("INSERT into admin_master values(NULL,'$name','$email','$mobile','$passwordMD','FACULTY','$password')");
-      
+
         $last_id = mysql_insert_id();
         mysql_query("INSERT into facultySubjects values(NULL,'$last_id','$subject')");
+    }
 
-      echo "<script type='text/javascript'>window.location='faculties.php'</script>";
+    echo "<script type='text/javascript'>window.location='faculties.php'</script>";
 
-  }
-     
-  if(isset($_REQUEST['edit']))
-  {
-      
-      include("conn.inc.php");
+}
 
-      $id = $_REQUEST['id'];
-      $name = ucfirst(addslashes($_REQUEST['name']));
-      $email = addslashes($_REQUEST['email']);
-      $mobile = addslashes($_REQUEST['mobile']);
-      $subject = addslashes($_REQUEST['subject']);
-    
-      mysql_query("UPDATE admin_master set name = '$name' ,
-       email = '$email',
-       mobile = '$mobile'
-        where id = '$id'");
+if (isset($_REQUEST['edit'])) {
+
+    $id = $_REQUEST['id'];
+    $name = ucfirst(addslashes($_REQUEST['name']));
+    $email = addslashes($_REQUEST['email']);
+    $mobile = addslashes($_REQUEST['mobile']);
+    $subject = addslashes($_REQUEST['subject']);
+
+    if (checkAdminEmail($email, $id)) {
+        echo "<script type='text/javascript'>alert('Email ID Already In Use.')</script>";
+    } else {
+        mysql_query("UPDATE admin_master set name = '$name' ,
+        email = '$email',
+        mobile = '$mobile'
+         where id = '$id'");
 
         mysql_query("UPDATE facultySubjects set subject_id = '$subject'
-         where faculty_id = '$id'");
-            
-     echo "<script type='text/javascript'>window.location='faculties.php'</script>";
+          where faculty_id = '$id'");
 
-  }
-  // End of Insert Record  
-  ?>
+    }
+
+    echo "<script type='text/javascript'>window.location='faculties.php'</script>";
+
+}
+// End of Insert Record
+?>
 
 
 <style type="text/css">
@@ -90,19 +94,16 @@
                 <div class="col-md-12">
 
                     <?php
- 
-  if(isset($_REQUEST['remove']))
-  {
-      include("conn.inc.php");
-     $id = $_REQUEST['id'];
-     $check = mysql_query("DELETE  from admin_master where id = '$id'");
-       
-       echo "<script type='text/javascript'>window.location='faculties.php'</script>";
-    }
-    else if(isset($_REQUEST['create']))
-  {
-    include("conn.inc.php");
-               $get = mysql_query("SELECT *from subjects");
+
+if (isset($_REQUEST['remove'])) {
+    include "conn.inc.php";
+    $id = $_REQUEST['id'];
+    $check = mysql_query("DELETE  from admin_master where id = '$id'");
+
+    echo "<script type='text/javascript'>window.location='faculties.php'</script>";
+} else if (isset($_REQUEST['create'])) {
+    include "conn.inc.php";
+    $get = mysql_query("SELECT *from subjects");
     ?>
                     <!-- Create subjects -->
                     <div class="portlet">
@@ -154,14 +155,13 @@
                                             data-required-message="Please Select Subject">
                                             <option value="">Select Subject</option>
                                             <?php
-              while($row = mysql_fetch_array($get))
-              {
-                ?>
+while ($row = mysql_fetch_array($get)) {
+        ?>
                                             <option value="<?php echo $row['id'] ?>"><?php echo $row['subject'] ?>
                                             </option>
                                             <?php
-              }
-            ?>
+}
+    ?>
                                         </select>
                                     </div>
                                 </div>
@@ -200,19 +200,17 @@
                     <!-- End of Create subjects -->
 
                     <?php
-  }
-  else if(isset($_REQUEST['update']))
-  {
-      include("conn.inc.php");
-      $id = $_REQUEST['id'];
-      $get = mysql_query("SELECT * from admin_master where id = '$id'");
-      $data = mysql_fetch_assoc($get);
+} else if (isset($_REQUEST['update'])) {
+    include "conn.inc.php";
+    $id = $_REQUEST['id'];
+    $get = mysql_query("SELECT * from admin_master where id = '$id'");
+    $data = mysql_fetch_assoc($get);
 
-      $getSelectedSubject = mysql_query("SELECT * from facultysubjects where faculty_id	 = '$id'");
-      $selected = mysql_fetch_assoc($getSelectedSubject);
+    $getSelectedSubject = mysql_query("SELECT * from facultysubjects where faculty_id	 = '$id'");
+    $selected = mysql_fetch_assoc($getSelectedSubject);
 
-      $getSubjects = mysql_query("SELECT *from subjects");
-     ?>
+    $getSubjects = mysql_query("SELECT *from subjects");
+    ?>
                     <!-- Create subjects -->
                     <div class="portlet">
                         <div class="portlet-header">
@@ -266,15 +264,17 @@
                                             data-required-message="Please Select Subject">
                                             <option value="">Select Subject</option>
                                             <?php
-      while($row = mysql_fetch_array($getSubjects))
-      {
+while ($row = mysql_fetch_array($getSubjects)) {
         ?>
                                             <option value="<?php echo $row['id'] ?>"
-                                                <?php if($row['id'] === $selected['subject_id']) echo 'selected="selected"' ?>>
+                                                <?php if ($row['id'] === $selected['subject_id']) {
+            echo 'selected="selected"';
+        }
+        ?>>
                                                 <?php echo $row['subject'] ?>
                                             </option>
                                             <?php
-      }
+}
     ?>
                                         </select>
                                     </div>
@@ -295,12 +295,11 @@
                     <!-- End of Create subjects -->
 
                     <?php
-  }
-  else{
+} else {
 
 // Show Data
 
-          ?>
+    ?>
                     <div class="portlet">
                         <div class="portlet-header">
 
@@ -338,12 +337,11 @@
                                     </thead>
                                     <tbody>
                                         <?php
-         include("conn.inc.php");
-               $get = mysql_query("SELECT *from admin_master where type='FACULTY' order by id desc");
-               $i = 1;
-               while($row = mysql_fetch_array($get))
-               {
-                ?>
+include "conn.inc.php";
+    $get = mysql_query("SELECT *from admin_master where type='FACULTY' order by id desc");
+    $i = 1;
+    while ($row = mysql_fetch_array($get)) {
+        ?>
                                         <tr>
 
                                             <td style="text-align: center; vertical-align: middle;"><?php echo $i; ?>
@@ -359,14 +357,14 @@
                                                 <?php echo $row['mobile']; ?>
                                             </td>
                                             <td style="text-align: center; vertical-align: middle;">
-                                                <?php 
-    $getSubjectId =  mysql_query("SELECT *from facultysubjects where 	faculty_id='$row[0]'");
-    $subject = mysql_fetch_assoc($getSubjectId);
-    $id = $subject["subject_id"];
-    $getsubjectName = mysql_query("SELECT * from subjects where id='$id'");
-    $subjects = mysql_fetch_assoc($getsubjectName);
-    echo $subjects['subject'];
-                                                ?>
+                                                <?php
+$getSubjectId = mysql_query("SELECT *from facultysubjects where 	faculty_id='$row[0]'");
+        $subject = mysql_fetch_assoc($getSubjectId);
+        $id = $subject["subject_id"];
+        $getsubjectName = mysql_query("SELECT * from subjects where id='$id'");
+        $subjects = mysql_fetch_assoc($getsubjectName);
+        echo $subjects['subject'];
+        ?>
                                             </td>
 
                                             <td><a href="faculties.php?update=y&id=<?php echo $row['id']; ?>"><button
@@ -379,10 +377,10 @@
                                             </td>
                                         </tr>
 
-                                        <?php 
-                    $i++;
-                  } 
-                  ?>
+                                        <?php
+$i++;
+    }
+    ?>
 
 
                                     </tbody>
@@ -397,9 +395,9 @@
 
 
                     <?php
-      }  // End of Show Data
+} // End of Show Data
 
-      ?>
+?>
 
 
                 </div>
@@ -411,9 +409,9 @@
 
         <!-- /.row -->
 
-        <!--  </div>  
-      
-  </div>  
+        <!--  </div>
+
+  </div>
 
 </div>-->
 
@@ -422,9 +420,9 @@
 </div>
 
 
-<?php include_once("footer.inc.php");?>
+<?php include_once "footer.inc.php";?>
 
-<?php include_once("closebody.php");?>
+<?php include_once "closebody.php";?>
 
 <script src="js/plugins/magnific/jquery.magnific-popup.min.js"></script>
 <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
