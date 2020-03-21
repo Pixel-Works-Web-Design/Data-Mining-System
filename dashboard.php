@@ -1,6 +1,9 @@
 <?php include_once "header.inc.php";?>
 
 <style>
+.morris-hover-row-label{
+    display:none !important;
+}
     .dots{
         position:absolute;
         top:4px;
@@ -13,13 +16,13 @@
         margin-left:5px;
     }
     .red{
-        background-color:red;
+        background-color:#e74c3c;
     }
     .black{
-        background-color:black;
+        background-color:#333333;
     }
     .green{
-        background-color:green;
+        background-color:#169f84;
     }
     .blue{
         background-color:blue;
@@ -63,11 +66,11 @@ $students = mysql_num_rows($getStudents);
 <div class="clear"></div>
 
 <div class="col-md-12">
-    <div class="col-md-3"><span class="dots red"></span> <span class="dots_title">Books</span></div>
+    <!-- <div class="col-md-3"><span class="dots red"></span> <span class="dots_title">Books</span></div>
 
     <div class="col-md-3"><span class="dots blue"></span><span class="dots_title">Ppts</span></div>
-    <div class="col-md-3"><span class="dots black"></span><span class="dots_title">Videos</span></div>
-    <div class="col-md-3"><span class="dots green"></span><span class="dots_title">Others</span></div>
+    <div class="col-md-3"><span class="dots green"></span><span class="dots_title">Videos</span></div>
+    <div class="col-md-3"><span class="dots black"></span><span class="dots_title">Others</span></div> -->
 </div>
 
 <div id="line-chart" class="chart-holder bar__"></div>
@@ -148,21 +151,17 @@ function line () {
 
     
 $.ajax({
-    url: "surveyChartData.php",
+    url: "surveyStudyLineChartData.php",
     cache: false,
     dataType: 'JSON',
     success: function(response) {
-        console.log({response});
+        
         Morris.Line({
 		element: 'line-chart',
-		data: [
-			{ y: '2001', a: 1, b: 0,c:0,d:0 },
-            { y: '2002', a: 0, b: 1,c:0,d:0 },
-            { y: '2003', a: 1, b: 0,c:0,d:0 },
-            { y: '2004', a: 0, b: 1,c:0,d:1 },
-		],
+		data: response,
 		xkey: 'y',
-		ykeys: ['a', 'b','c','d'],
+        ykeys: ['books', 'ppts','videos','others'],
+        labels: ['Books','Ppts', 'Videos', 'Others'],
 		lineColors: target_admin.layoutColors
 	});
 
