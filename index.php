@@ -26,7 +26,14 @@ if(isset($_REQUEST['btnLogin']))
 			$_SESSION['type']= $row["type"];
 			$address=$_SERVER['REMOTE_ADDR'];
 			mysql_query("INSERT into history values(NULL,'$uname',now(),'$address')");
-			 
+       
+      if($row["type"] === "FACULTY"){
+        $id = $row[0];
+        $get = mysql_query("SELECT *from facultysubjects where faculty_id='$id'");
+        $subjects = mysql_fetch_assoc($get);
+        $subject_id = $subjects['subject_id'];
+        $_SESSION['subject_id']= $subject_id;
+      }
       echo "<script type='text/javascript'>window.location='dashboard.php'</script>"; 
       
 		}

@@ -16,9 +16,18 @@
       </a>
     </li>
 
+  
+    <!--  -->
     <?php
 if($_SESSION['type'] != "STUDENT"){
 ?>
+
+    <li>
+      <a href="assignment.php">
+        <i class="fa fa-book"></i>
+        Assignments
+      </a>
+    </li>
     <li class="dropdown ">
       <a href="#about" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
         <i class="fa fa-ruble"></i>
