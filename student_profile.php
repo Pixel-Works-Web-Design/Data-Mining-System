@@ -20,6 +20,7 @@
         gender = '$gender'
          where id = '$id'");
       
+      $_SESSION['name'] = $fname . $lname;
       echo "<script type='text/javascript'>window.location='student_profile?s=.php'</script>";
  
    }

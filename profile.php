@@ -21,7 +21,7 @@
       mobile = '$mobile'
        where id = '$id'");
    
-
+      $_SESSION['name'] = $name;
      echo "<script type='text/javascript'>window.location='profile.php?s='</script>";
 
   }
