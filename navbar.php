@@ -68,6 +68,12 @@ if($_SESSION['type'] == "STUDENT"){
        <?php } ?>
       </ul>
     </li>
+    <li>
+      <a href="noOfquiz.php">
+        <i class="fa fa-question-circle"></i>
+      Quiz
+      </a>
+    </li>
 <?php } ?>
 
     <!--  -->

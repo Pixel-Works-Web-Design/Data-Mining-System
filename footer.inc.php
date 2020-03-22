@@ -11,7 +11,7 @@
         <!-- /.col -->
 
       <div class="col-sm-12">
- 		<p style="text-align:center">Copyrigh© 2018 . PixelWorks WebDesign</p>
+ 		<p style="text-align:center">Copyrigh© 2020 . PixelWorks WebDesign</p>
 
         <br>
 
