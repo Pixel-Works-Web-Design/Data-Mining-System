@@ -70,6 +70,7 @@ if (isset($_REQUEST['edit'])) {
 }
 // End of Insert Record
 ?>
+<link rel="stylesheet" href="css/checkbox.css">
 
 
 <style type="text/css">
@@ -175,14 +176,14 @@ if (isset($_REQUEST['remove'])) {
                                 </div>
                                 <div class="col-sm-12"><br></div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-6">
                                     <label class="col-md-12">GR.NO. :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
                                         <input name="grno" type="text" id="grno" tabindex="2" class="form-control"
                                             data-required="true" data-required-message="Please Enter GR.NO" />
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-6">
                                     <label class="col-md-12">Class :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
                                         <input name="class" type="text" id="class" tabindex="2" class="form-control"
@@ -196,24 +197,24 @@ if (isset($_REQUEST['remove'])) {
                                     <div class="col-sm-12">
 
                                         <div class="col-sm-2">
-                                            <label>
-                                                <input type="radio" name="gender" class="" data-required="true"
-                                                    value="MALE" tabindex="2" checked>
-
-                                                <i class="fa fa-male" aria-hidden="true"
+                                        <input type="radio" value="MALE" name="gender"
+                                    id="male" tabindex="2" checked>
+                                <label for="male">
+                                <i class="fa fa-male" aria-hidden="true"
                                                     style="font-size:25px; cursor:pointer"></i>
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label>
-                                                <input type="radio" name="gender" class="" data-required="true"
-                                                    value="FEMALE" tabindex="2">
-                                                <i class="fa fa-female" aria-hidden="true"
-                                                    style="font-size:25px; cursor:pointer"></i>
-                                            </label>
-                                        </div>
-                                    </div>
+                                </label>
+                                         </div>
+                                         
 
+                            <div class="col-sm-2">
+                            <input type="radio" value="FEMALE" name="gender"
+                            id="female" tabindex="2">
+                            <label for="female">
+                            <i class="fa fa-female" aria-hidden="true"
+                                        style="font-size:25px; cursor:pointer"></i>
+                            </label>
+                            </div>
+</div>
                                 </div>
                                 <div class="col-sm-12"><br></div>
 
@@ -317,14 +318,14 @@ if (isset($_REQUEST['remove'])) {
                                 </div>
                                 <div class="col-sm-12"><br></div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-6">
                                     <label class="col-md-12">GR.NO. :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
                                         <input name="grno" type="text" id="grno" tabindex="2" class="form-control"
                                             data-required="true" data-required-message="Please Enter GR.NO" value="<?php echo $data['gr_no']; ?>"/>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-6">
                                     <label class="col-md-12">Class :<strong style="color:Red">*</strong></label>
                                     <div class="form-group col-md-12">
                                         <input name="class" type="text" id="class" tabindex="2" class="form-control"
@@ -338,37 +339,29 @@ if (isset($_REQUEST['remove'])) {
                                     <label class="col-sm-3">Gender :<strong style="color:Red">*</strong></label>
                                     <div class="col-sm-12">
 
-                                        <div class="col-sm-2">
-                                            <label>
-                                                <input type="radio" name="gender" class="" data-required="true"
-                                                    value="MALE" tabindex="2"
-                                                    <?php
-if ($data['gender'] === "MALE") {
-        echo "checked"
-        ;
+                                    <div class="col-md-2">
+                                <input type="radio" value="MALE" name="gender"
+                                    id="male" tabindex="2"   <?php if ($data['gender'] === "MALE") {
+        echo "checked";
     }
-    ?>
-                                                    >
+    ?>>
+                                <label for="male">
+                                <i class="fa fa-male" aria-hidden="true"
+                                                    style="font-size:25px; cursor:pointer"></i>
+                                </label>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="radio" value="FEMALE" name="gender"
+                                    id="female" tabindex="2"   <?php if ($data['gender'] === "FEMALE") {
+        echo "checked";
+    }
+    ?>>
+                                <label for="female">
+                                <i class="fa fa-female" aria-hidden="true"
+                                                    style="font-size:25px; cursor:pointer"></i>
+                                </label>
+                            </div>
 
-                                                <i class="fa fa-male" aria-hidden="true"
-                                                    style="font-size:25px; cursor:pointer"></i>
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label>
-                                                <input type="radio" name="gender" class="" data-required="true"
-                                                    value="FEMALE" tabindex="2"
-                                                    <?php
-if ($data['gender'] === "FEMALE") {
-        echo "checked"
-        ;
-    }
-    ?>
-                                                    >
-                                                <i class="fa fa-female" aria-hidden="true"
-                                                    style="font-size:25px; cursor:pointer"></i>
-                                            </label>
-                                        </div>
                                     </div>
 
                                 </div>
@@ -428,10 +421,10 @@ if ($_SESSION['type'] != "FACULTY") {
                                             <th style="text-align: center;">Mobile</th>
                                             <th style="text-align: center;">Class</th>
                                             <th style="text-align: center;">Gender</th>
-                                            <th style="width:170px;">Update</th>
+                                            <th style="width:100px;">Update</th>
                                             <?php
 if ($_SESSION['type'] != "FACULTY") {
-        echo '<th style="width:170px;">Delete</th>';
+        echo '<th style="width:100px;">Delete</th>';
     }
     ?>
 
@@ -474,7 +467,7 @@ $id = $row['id'];
                                             <td style="text-align: center; vertical-align: middle;">
                                                 <?php echo $row['class']; ?>
                                             </td>
-                                            <td style="text-align: center; vertical-align: middle;">
+                                            <td style="text-align: center; vertical-align: middle;" title="<?php echo $row['gender']; ?>">
                                                 <?php
 if ($row['gender'] == 'MALE') {
             echo '<i class="fa fa-male" aria-hidden="true" style="font-size:25px; cursor:pointer"></i>';

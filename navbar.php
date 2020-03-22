@@ -17,6 +17,33 @@
     </li>
 
     <?php
+if($_SESSION['type'] === "MASTERADMIN"){
+?>
+ <li class="dropdown ">
+      <a href="#about" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
+        <i class="fa fa-ruble"></i>
+        Entry
+        <span class="caret"></span>
+      </a>
+
+      <ul class="dropdown-menu">   
+        
+        <li>
+          <a href="subjects.php"><i class="fa fa-edit nav-icon"></i> 
+            Subjects
+          </a>
+        </li>
+        <li>
+          <a href="surveyView.php"><i class="fa fa-eye nav-icon"></i> 
+            Survey Form
+          </a>
+        </li>
+        </ul>
+    </li>
+<?php } ?>
+      
+
+    <?php
 if($_SESSION['type'] == "STUDENT"){
 ?>
 <li class="dropdown ">
@@ -54,31 +81,7 @@ if($_SESSION['type'] != "STUDENT"){
         Assignments
       </a>
     </li>
-    <li class="dropdown ">
-      <a href="#about" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
-        <i class="fa fa-ruble"></i>
-        Entry
-        <span class="caret"></span>
-      </a>
-
-      <ul class="dropdown-menu">   
-        
-      <?php
-if($_SESSION['type'] === "MASTERADMIN"){
-?>
-        <li>
-          <a href="subjects.php"><i class="fa fa-edit nav-icon"></i> 
-            Subjects
-          </a>
-        </li>
-        <li>
-          <a href="surveyView.php"><i class="fa fa-eye nav-icon"></i> 
-            Survey Form
-          </a>
-        </li>
-<?php } ?>
-      </ul>
-    </li>
+  
     <?php } ?>
 <?php
 if($_SESSION['type'] === "MASTERADMIN"){
@@ -117,6 +120,20 @@ if($_SESSION['type'] === "MASTERADMIN"){
     <?php
 }
 ?>
+
+<?php
+if($_SESSION['type'] != "STUDENT"){
+?>
+    <li>
+      <a href="quiz.php">
+        <i class="fa fa-question-circle"></i>
+      Quiz
+      </a>
+    </li>
+    <?php
+}
+?>
+
   </ul>
 </div> <!-- /.navbar-collapse -->   
 </div> 
