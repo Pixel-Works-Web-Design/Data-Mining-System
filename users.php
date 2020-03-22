@@ -288,8 +288,8 @@ include "helper.php";
                                             <th style="text-align: center;">Name</th>
                                             <th style="text-align: center;">Email</th>
                                             <th style="text-align: center;">Mobile</th>
-                                            <th style="width:210px;">Update</th>
-                                            <th style="width:210px;">Delete</th>
+                                            <th style="width:140px;">Update</th>
+                                            <th style="width:140px;">Delete</th>
 
                                         </tr>
 

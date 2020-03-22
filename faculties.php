@@ -329,8 +329,8 @@ while ($row = mysql_fetch_array($getSubjects)) {
                                             <th style="text-align: center;">Email</th>
                                             <th style="text-align: center;">Mobile</th>
                                             <th style="text-align: center;">Subject</th>
-                                            <th style="width:210px;">Update</th>
-                                            <th style="width:210px;">Delete</th>
+                                            <th style="width:140px;">Update</th>
+                                            <th style="width:140px;">Delete</th>
 
                                         </tr>
 

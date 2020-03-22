@@ -97,32 +97,36 @@
 
                 $quizId = $row['id'];
                 $noOfMcq = mysql_query("SELECT *from mcq where quiz_id='$quizId'");
-                
-                ?>
-                    <tr>
+                if(mysql_num_rows($noOfMcq) > 0){
+                  ?>
+                  <tr>
                       
-                    <td style="text-align: center; vertical-align: middle;"><?php echo $i; ?></td>
-
-                     <td style="vertical-align: middle;">
-                     <a href="studentQuiz.php?quizId=<?php echo $row['id'] . '&subjectId=' . $subId; ?>">
-                     <?php echo $row['name']; ?>
-                     </a>
-                     </td>
-
-                    <td class="middle">
-                      <?php echo  $subject['subject']; ?>
-                     </td>
-
-                     <td class="middle">
-                      <?php echo  "(" . mysql_num_rows($noOfMcq) . ")"; ?>
-                     </td>
-
-                     <td class="middle"><a href="studentQuiz.php?quizId=<?php echo $row['id'] . '&subjectId=' . $subId; ?>"><button class="btn btn-secondary" type="button">
-                     Start
-                     </button></a></td>
-                   
-                    </tr>
-                  
+                      <td style="text-align: center; vertical-align: middle;"><?php echo $i; ?></td>
+  
+                       <td style="vertical-align: middle;">
+                       <a href="studentQuiz.php?quizId=<?php echo $row['id'] . '&subjectId=' . $subId; ?>">
+                       <?php echo $row['name']; ?>
+                       </a>
+                       </td>
+  
+                      <td class="middle">
+                        <?php echo  $subject['subject']; ?>
+                       </td>
+  
+                       <td class="middle">
+                        <?php echo  "(" . mysql_num_rows($noOfMcq) . ")"; ?>
+                       </td>
+  
+                       <td class="middle"><a href="studentQuiz.php?quizId=<?php echo $row['id'] . '&subjectId=' . $subId; ?>"><button class="btn btn-secondary" type="button">
+                       Start
+                       </button></a></td>
+                     
+                      </tr>
+                    
+                  <?php
+                }
+                ?>
+                    
                     <?php 
                     $i++;
                   } 

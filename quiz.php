@@ -100,6 +100,8 @@
       include("conn.inc.php");
      $id = $_REQUEST['id'];
      mysql_query("DELETE  from quiz where id = '$id'");
+     mysql_query("DELETE  from mcq where quiz_id = '$id'");
+     mysql_query("DELETE  from student_quiz where quiz_id = '$id'");
 
     echo "<script type='text/javascript'>window.location='quiz.php'</script>";
     

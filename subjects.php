@@ -78,10 +78,17 @@
   {
       include("conn.inc.php");
      $id = $_REQUEST['id'];
-     $check = mysql_query("DELETE  from subjects where id = '$id'");
 
+     $get = mysql_query("SELECT *from facultysubjects where subject_id = '$id'");
+     while ($row = mysql_fetch_array($get)) {
+          $facultyId = $row['id'];
+          mysql_query("DELETE  from admin_master where id = '$facultyId' AND type = 'FACULTY'");
+     } 
+     mysql_query("DELETE  from subjects where id = '$id'");
+     mysql_query("DELETE  from assignment where subject_id = '$id'");
+     mysql_query("DELETE  from facultysubjects where subject_id = '$id'");
+     mysql_query("DELETE  from quiz where subject_id = '$id'");
    
-       
        echo "<script type='text/javascript'>window.location='subjects.php'</script>";
     }
     else if(isset($_REQUEST['create']))

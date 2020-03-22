@@ -103,7 +103,8 @@
                 				// date Format
 							$date = date_create($row['date']);
               $date_format = DATE_FORMAT($date, 'F d, Y');
-              
+
+              $noOfMcq = mysql_query("SELECT *from mcq where quiz_id='$quizId'");
                 ?>
                     <tr>
                       
@@ -133,9 +134,17 @@
                       ?>
                      </td>
 
-                     <td class="middle"><a href="studentQuiz.php?quizId=<?php echo $quizId . '&subjectId=' . $subId; ?>"><button class="btn btn-secondary" type="button">
+                     <td class="middle">
+                     <?php
+                     if(mysql_num_rows($noOfMcq) > 0){
+                       ?>
+                        <a href="studentQuiz.php?quizId=<?php echo $quizId . '&subjectId=' . $subId; ?>"><button class="btn btn-secondary" type="button">
                      Try Again
-                     </button></a></td>
+                     </button></a>
+                       <?php
+                     }
+                      ?>
+                     </td>
                    
                     </tr>
                   

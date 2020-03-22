@@ -119,6 +119,8 @@ if (isset($_REQUEST['remove'])) {
     include "conn.inc.php";
     $id = $_REQUEST['id'];
     $check = mysql_query("DELETE  from students where id = '$id'");
+    mysql_query("DELETE  from studentsurvey where student_id = '$id'");
+    mysql_query("DELETE  from student_quiz where student_id = '$id'");
 
     echo "<script type='text/javascript'>window.location='students.php'</script>";
 } else if (isset($_REQUEST['create'])) {
