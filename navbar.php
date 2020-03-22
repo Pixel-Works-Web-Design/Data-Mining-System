@@ -9,14 +9,40 @@
 
   <ul class="nav navbar-nav mainbar-nav">
 
-    <li  >
+    <li>
       <a href="dashboard.php">
         <i class="fa fa-dashboard"></i>
         Dashboard
       </a>
     </li>
 
-  
+    <?php
+if($_SESSION['type'] == "STUDENT"){
+?>
+<li class="dropdown ">
+      <a href="#about" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
+        <i class="fa fa-book"></i>
+          Assignments
+        <span class="caret"></span>
+      </a>
+
+      <ul class="dropdown-menu">   
+      <?php 
+      include("conn.inc.php");
+       $get = mysql_query("SELECT *from subjects");
+       while($row = mysql_fetch_array($get))
+       {
+      ?>
+        <li>
+          <a href="studentAssignment.php?subjectId=<?php echo $row['id'] ?>"><i class="fa fa-book  nav-icon"></i> 
+            <?php echo $row['subject']; ?>
+          </a>
+        </li>
+       <?php } ?>
+      </ul>
+    </li>
+<?php } ?>
+
     <!--  -->
     <?php
 if($_SESSION['type'] != "STUDENT"){
