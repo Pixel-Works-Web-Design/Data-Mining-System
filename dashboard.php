@@ -27,6 +27,7 @@
     .blue{
         background-color:blue;
     }
+    #line-chart tspan { fill: none; }
 </style>
 <div class="container">
 

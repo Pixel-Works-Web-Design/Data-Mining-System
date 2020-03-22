@@ -77,7 +77,7 @@
                         <div class="form-group">
                             <textarea data-required="true" tabindex="2"
                                 data-required-message="<?php echo str_replace('?', '', $row['title']) . ' field is Required.'; ?>"
-                                data-minlength="3" name="<?php echo $row['id']; ?>" id="<?php echo $row['id']; ?>"
+                                data-minlength="2" name="<?php echo $row['id']; ?>" id="<?php echo $row['id']; ?>"
                                 cols="10" rows="4" class="form-control"></textarea>
                         </div>
                         <?php
