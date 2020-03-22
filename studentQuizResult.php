@@ -14,9 +14,14 @@
 }
   </style> 
   
-  
-  <link rel="stylesheet" href="js/plugins/magnific/magnific-popup.css">
-
+<?php 
+  include("conn.inc.php");
+  $studentId = $_REQUEST['studentId'];
+  $getStudent = mysql_query("SELECT * from students where id = '$studentId'");
+  $student = mysql_fetch_assoc($getStudent);
+  $name = $student['fname'] . " " . $student['lname'] ;
+  $heading= "Result of " . $name . " Student Quiz";
+?>
 <div class="container">
 
   <div class="content">
@@ -33,10 +38,10 @@
     <div class="content-container">-->
     
     <div class="content-header">
-        <h2 class="content-header-title">Quiz (MCQ)</h2>
+        <h2 class="content-header-title"><?php echo $heading; ?></h2>
         <ol class="breadcrumb">
           <li><a href="dashboard.php">Home</a></li>
-          <li class="active"><a href="noOfquiz.php">Quiz (MCQ)</a></li>
+          <li class="active"><a href="studentQuizResult.php?studentId=<?php echo $studentId; ?>"><?php echo $heading; ?></a></li>
           
         </ol>
       </div>
@@ -56,7 +61,7 @@
 
               <h3>
                 <i class="fa fa-table"></i>
-                Quiz (MCQ)&nbsp;&nbsp;
+                <?php echo $heading; ?>
               </h3>
 
             </div> <!-- /.portlet-header -->
@@ -75,19 +80,24 @@
               >
                   <thead>
                   <tr>
-                    <th class="middle">No</th>
+                    <th style="width:150px;">Date</th>
                     <th>Quiz</th>
                     <th class="middle">Subject</th>
                     <th class="middle">MCQ</th>
-                    <th class="middle">Start</th>
+                    <th class="middle">Score</th>
+                    <th class="middle">Average</th>
                     </tr>
                    
                   </thead>
                   <tbody>
                      <?php
-         include("conn.inc.php");
+                     if($_SESSION['type'] === 'FACULTY'){
+                        $subjectId = $_SESSION['subject_id'];
+                        $get = mysql_query("SELECT * FROM `student_quiz` AS stuQuz INNER JOIN `quiz` AS quiz ON stuQuz.quiz_id = quiz.id AND stuQuz.student_id= '$studentId' AND quiz.subject_id = '$subjectId'");
+                     }else{
+                        $get = mysql_query("SELECT * FROM `student_quiz` AS stuQuz INNER JOIN `quiz` AS quiz ON stuQuz.quiz_id = quiz.id AND stuQuz.student_id= '$studentId'");
+                     }
 
-          $get = mysql_query("SELECT *from quiz");
                $i = 1;
                while($row = mysql_fetch_array($get))
                {
@@ -95,16 +105,17 @@
                 $getSubject = mysql_query("SELECT *from subjects where id='$subId'");
                 $subject = mysql_fetch_assoc($getSubject);
 
-                $quizId = $row['id'];
-                $noOfMcq = mysql_query("SELECT *from mcq where quiz_id='$quizId'");
-                
+                				// date Format
+				$date = date_create($row['date']);
+                $date_format = DATE_FORMAT($date, 'F d, Y');
+              
                 ?>
                     <tr>
                       
-                    <td style="text-align: center; vertical-align: middle;"><?php echo $i; ?></td>
+                    <td style="vertical-align: middle;"><?php echo $date_format; ?></td>
 
                      <td style="vertical-align: middle;">
-                     <a href="studentQuiz.php?quizId=<?php echo $row['id'] . '&subjectId=' . $subId; ?>">
+                     <a href="quiz.php">
                      <?php echo $row['name']; ?>
                      </a>
                      </td>
@@ -114,13 +125,19 @@
                      </td>
 
                      <td class="middle">
-                      <?php echo  "(" . mysql_num_rows($noOfMcq) . ")"; ?>
+                     <?php echo  $row['questions']; ?>
                      </td>
 
-                     <td class="middle"><a href="studentQuiz.php?quizId=<?php echo $row['id'] . '&subjectId=' . $subId; ?>"><button class="btn btn-secondary" type="button">
-                     Start
-                     </button></a></td>
-                   
+                     <td class="middle" style="font-weight:bold;">
+                     <?php echo  "(" . $row['result'] . "/" . $row['questions'] . ")"; ?>
+                      </td>
+
+                     <td class="middle" style="font-weight:bold;">
+                      <?php
+                        echo ( $row['result'] * 100) / $row['questions'] . '%'; 
+                      ?>
+                     </td>
+
                     </tr>
                   
                     <?php 
@@ -163,6 +180,3 @@
 <?php include_once("footer.inc.php");?>
 
 <?php include_once("closebody.php");?>
-
-<script src="js/plugins/magnific/jquery.magnific-popup.min.js"></script>
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>

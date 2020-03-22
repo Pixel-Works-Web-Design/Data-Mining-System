@@ -47,6 +47,12 @@
 <link rel="stylesheet" href="css/checkbox.css">
 
 <style>
+    .options{
+        /* margin:4px 0; */
+    }
+    .label-text{
+        padding:0px 30% 5px 0; 
+    }
     .option-label{
         margin:0 15px 0 5px;
     }
@@ -99,7 +105,7 @@
             </div>
 
             <?php 
-            echo "<script type='text/javascript'>setTimeout(function(){ window.location='noOfquiz.php' }, 2000);</script>";
+            echo "<script type='text/javascript'>setTimeout(function(){ window.location='studentResult.php' }, 2000);</script>";
         }
          ?>
         
@@ -133,31 +139,31 @@
                         </label>
                         <div style=" margin-top:40px; margin-bottom:17px;">
                         
-                            <div class="col-md-3 ">
+                            <div class="col-md-12 options">
                                 <input type="radio" value="A" name="<?php echo $mcqId ?>"
                                     id="<?php echo $A . $mcqId; ?>" tabindex="2" required>
-                                <label for="<?php echo $A . $mcqId; ?>">
+                                <label for="<?php echo $A . $mcqId; ?>" class="label-text">
                                 <span class="option-label">(A)</span><?php echo $A; ?>
                                 </label>
                             </div>
-                            <div class="col-md-3 ">
+                            <div class="col-md-12 options">
                                 <input type="radio" value="B" name="<?php echo $mcqId ?>"
                                     id="<?php echo $B . $mcqId; ?>" tabindex="2" required>
-                                <label for="<?php echo $B . $mcqId; ?>">
+                                <label for="<?php echo $B . $mcqId; ?>" class="label-text">
                                 <span class="option-label">(B)</span><?php echo $B; ?>
                                 </label>
                             </div>
-                            <div class="col-md-3 ">
+                            <div class="col-md-12 options">
                                 <input type="radio" value="C" name="<?php echo $mcqId ?>"
                                     id="<?php echo $C . $mcqId; ?>" tabindex="2" required>
-                                <label for="<?php echo $C . $mcqId; ?>">
+                                <label for="<?php echo $C . $mcqId; ?>" class="label-text">
                                 <span class="option-label">(C)</span><?php echo $C; ?>
                                 </label>
                             </div>
-                            <div class="col-md-3 ">
+                            <div class="col-md-12 options">
                                 <input type="radio" value="D" name="<?php echo $mcqId ?>"
                                     id="<?php echo $D . $mcqId; ?>" tabindex="2" required>
-                                <label for="<?php echo $D . $mcqId; ?>">
+                                <label for="<?php echo $D . $mcqId; ?>" class="label-text">
                                 <span class="option-label">(D)</span><?php echo $D; ?>
                                 </label>
                             </div>
@@ -198,7 +204,6 @@
         </div>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <?php  include_once("footer.inc.php");?>
 

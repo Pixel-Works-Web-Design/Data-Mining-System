@@ -417,6 +417,7 @@ if ($_SESSION['type'] != "FACULTY") {
                                             <th style="text-align: center;">GR.NO</th>
                                             <th style="text-align: center;">Name</th>
                                             <th style="text-align: center;">Survey</th>
+                                            <th style="text-align: center;">Quiz</th>
                                             <th style="text-align: center;">Email</th>
                                             <th style="text-align: center;">Mobile</th>
                                             <th style="text-align: center;">Class</th>
@@ -437,6 +438,7 @@ include "conn.inc.php";
     $get = mysql_query("SELECT *from students  order by id desc");
     $i = 1;
     while ($row = mysql_fetch_array($get)) {
+$id = $row['id'];
         ?>
                                         <tr>
 
@@ -448,9 +450,19 @@ include "conn.inc.php";
                                             </td>
                                             <td style="text-align: center; vertical-align: middle;font-weight:bold">
                                             <?php
-$id = $row['id'];
         if ($row['isSurveyFill'] === 'YES') {
-            echo "<a href='studentSurvey.php?&id=$id'>Survey Detail</a>";
+            echo "<a href='studentSurvey.php?id=$id'>Survey Detail</a>";
+        } else {
+            echo '<h1>-</h1>';
+        }
+        ?>
+
+                                            </td>
+                                            <td style="text-align: center; vertical-align: middle;font-weight:bold">
+                                            <?php
+$getQuiz = mysql_query("SELECT *from student_quiz where student_id = '$id'");
+        if (mysql_num_rows($getQuiz)) {
+            echo "<a href='studentQuizResult.php?studentId=$id'>Quiz Detail</a>";
         } else {
             echo '<h1>-</h1>';
         }

@@ -22,7 +22,7 @@
 
   $name = $data['fname'] . ' ' . $data['lname'];
 
-  $getSuervey = mysql_query("SELECT * FROM `survey` AS sur INNER JOIN `studentsurvey` AS stu ON sur.id = stu.survey_id AND stu.student_id = '$id';");
+  $getSuervey = mysql_query("SELECT * FROM `survey` AS sur INNER JOIN `studentsurvey` AS stu ON sur.id = stu.survey_id AND stu.student_id = '$id'");
 ?>
 <div class="container">
 

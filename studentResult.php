@@ -33,10 +33,10 @@
     <div class="content-container">-->
     
     <div class="content-header">
-        <h2 class="content-header-title">Quiz (MCQ)</h2>
+        <h2 class="content-header-title">Result</h2>
         <ol class="breadcrumb">
           <li><a href="dashboard.php">Home</a></li>
-          <li class="active"><a href="noOfquiz.php">Quiz (MCQ)</a></li>
+          <li class="active"><a href="studentResult.php">Result</a></li>
           
         </ol>
       </div>
@@ -56,7 +56,7 @@
 
               <h3>
                 <i class="fa fa-table"></i>
-                Quiz (MCQ)&nbsp;&nbsp;
+                Result of Quiz&nbsp;&nbsp;
               </h3>
 
             </div> <!-- /.portlet-header -->
@@ -75,37 +75,43 @@
               >
                   <thead>
                   <tr>
-                    <th class="middle">No</th>
+                    <th style="width:150px;">Date</th>
                     <th>Quiz</th>
                     <th class="middle">Subject</th>
                     <th class="middle">MCQ</th>
-                    <th class="middle">Start</th>
+                    <th class="middle">Score</th>
+                    <th class="middle">Average</th>
+                    <th class="middle" style="width:100px;">Retry</th>
                     </tr>
                    
                   </thead>
                   <tbody>
                      <?php
          include("conn.inc.php");
-
-          $get = mysql_query("SELECT *from quiz");
+        $studentId = $_SESSION['id'];
+          $get = mysql_query("SELECT *from student_quiz where student_id = '$studentId'");
                $i = 1;
                while($row = mysql_fetch_array($get))
                {
-                $subId = $row['subject_id'];
+                $quizId = $row['quiz_id'];
+                $getQuiz = mysql_query("SELECT *from quiz where id = '$quizId'");
+                $quiz = mysql_fetch_assoc($getQuiz);
+                $subId = $quiz['subject_id'];
                 $getSubject = mysql_query("SELECT *from subjects where id='$subId'");
                 $subject = mysql_fetch_assoc($getSubject);
 
-                $quizId = $row['id'];
-                $noOfMcq = mysql_query("SELECT *from mcq where quiz_id='$quizId'");
-                
+                				// date Format
+							$date = date_create($row['date']);
+              $date_format = DATE_FORMAT($date, 'F d, Y');
+              
                 ?>
                     <tr>
                       
-                    <td style="text-align: center; vertical-align: middle;"><?php echo $i; ?></td>
+                    <td style="vertical-align: middle;"><?php echo $date_format; ?></td>
 
                      <td style="vertical-align: middle;">
-                     <a href="studentQuiz.php?quizId=<?php echo $row['id'] . '&subjectId=' . $subId; ?>">
-                     <?php echo $row['name']; ?>
+                     <a href="noOfquiz.php">
+                     <?php echo $quiz['name']; ?>
                      </a>
                      </td>
 
@@ -114,11 +120,21 @@
                      </td>
 
                      <td class="middle">
-                      <?php echo  "(" . mysql_num_rows($noOfMcq) . ")"; ?>
+                     <?php echo  $row['questions']; ?>
                      </td>
 
-                     <td class="middle"><a href="studentQuiz.php?quizId=<?php echo $row['id'] . '&subjectId=' . $subId; ?>"><button class="btn btn-secondary" type="button">
-                     Start
+                     <td class="middle" style="font-weight:bold;">
+                     <?php echo  "(" . $row['result'] . "/" . $row['questions'] . ")"; ?>
+                      </td>
+
+                     <td class="middle" style="font-weight:bold;">
+                      <?php
+                        echo ( $row['result'] * 100) / $row['questions'] . '%'; 
+                      ?>
+                     </td>
+
+                     <td class="middle"><a href="studentQuiz.php?quizId=<?php echo $quizId . '&subjectId=' . $subId; ?>"><button class="btn btn-secondary" type="button">
+                     Try Again
                      </button></a></td>
                    
                     </tr>

@@ -450,7 +450,7 @@ include "conn.inc.php";
                      <td class="centerText">
                       <?php echo $row['option_d']; ?>
                      </td>
-                     <td class="centerText">
+                     <td class="centerText" style="font-weight:bold;">
                       <?php echo $row['answer']; ?>
                      </td>
 

@@ -74,6 +74,12 @@ if($_SESSION['type'] == "STUDENT"){
       Quiz
       </a>
     </li>
+    <li>
+      <a href="studentResult.php">
+        <i class="fa fa-star-half-o"></i>
+      Result
+      </a>
+    </li>
 <?php } ?>
 
     <!--  -->
