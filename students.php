@@ -7,6 +7,8 @@ include "helper.php";
 // Insert Record
 if (isset($_REQUEST['save'])) {
 
+    include "email.php";
+
     $fname = ucfirst(addslashes($_REQUEST['fname']));
     $lname = ucfirst(addslashes($_REQUEST['lname']));
     $email = addslashes($_REQUEST['email']);
@@ -18,7 +20,6 @@ if (isset($_REQUEST['save'])) {
     $passwordMD = md5($_REQUEST['password']);
 
     if (checkSudentEmailAndGr($email, $grno)) {
-
         echo "<script type='text/javascript'>alert('Email ID OR GR.NO Already In Use.')</script>";
     } else {
         mysql_query("INSERT into students(
@@ -35,6 +36,14 @@ if (isset($_REQUEST['save'])) {
                         '$passwordMD',
                         '$password')
                         ");
+        if(mysql_affected_rows() > 0){
+
+            sendEmailToStudent(
+                $name = $fname . " " . $lname,
+                $email,
+                $password
+            );
+        }
     }
 
     echo "<script type='text/javascript'>window.location='students.php'</script>";
@@ -173,7 +182,7 @@ if (isset($_REQUEST['remove'])) {
                                     <div class="form-group col-md-12">
                                         <input name="mobile" type="text" id="mobile" tabindex="2" class="form-control"
                                             data-required="true" data-type="number"
-                                            data-required-message="Please Enter Mobile" data-min="10" />
+                                            data-required-message="Please Enter Mobile" data-min="10"/>
                                     </div>
                                 </div>
                                 <div class="col-sm-12"><br></div>
