@@ -29,100 +29,71 @@
     }
     #line-chart tspan { fill: none; }
 </style>
-<div class="container">
 
-    <div class="content">
-
-        <div class="content-container">
-
-
-
-
-            <h3>Dashboard</h3>
-            <br>
-            <?php
+<?php
 include "conn.inc.php";
 $getStudents = mysql_query("SELECT * from students");
 $students = mysql_num_rows($getStudents);
 
 ?>
-            <!-- /.row -->
-            <!-- show USERS -->
+<div class="container">
+    <div class="content">
+        <div class="content-container">
+            <h3>Dashboard</h3>
+            <br>
 
             <div class="portlet">
-
                 <div class="portlet-content col-md-8">
-                <div class="portlet">
-
-<div class="portlet-header">
-
-    <h3>
-        <i class="fa fa-bar-chart-o"></i> Survey based on Study Material 
-    </h3>
-
-</div>
-<div class="portlet-content">
-<!-- /.pull-right -->
-
-<div class="clear"></div>
-
-<div class="col-md-12">
-    <!-- <div class="col-md-3"><span class="dots red"></span> <span class="dots_title">Books</span></div>
-
-    <div class="col-md-3"><span class="dots blue"></span><span class="dots_title">Ppts</span></div>
-    <div class="col-md-3"><span class="dots green"></span><span class="dots_title">Videos</span></div>
-    <div class="col-md-3"><span class="dots black"></span><span class="dots_title">Others</span></div> -->
-</div>
-
-<div id="line-chart" class="chart-holder bar__"></div>
-
-<div class="col-md-12" style="margin-top:-15px; width:100%; height:50px; background-color:white;">
-</div>
-<!-- <div id="area-chart" class="chart-holder"></div> -->
-</div>
-<!-- /.portlet-content -->
-
-</div>
-                </div> <!-- /.portlet-content -->
-
-
+                     <div class="portlet">
+                            <div class="portlet-header">
+                                <h3>
+                                 <i class="fa fa-bar-chart-o"></i> Survey based on Study Material 
+                                </h3>
+                            </div>
+                            <div class="portlet-content">
+                                 <div id="line-chart" class="chart-holder bar__"></div>
+                                <div class="col-md-12" style="margin-top:-15px; width:100%; height:50px; background-color:white;">
+                                </div>
+                            </div>
+                    </div> <!-- end of portlet -->
+                </div> <!-- end of content -->
                 <div class="col-md-4">
-      <br>
+                     <br>
                     <div class="portlet">
-
                         <div class="portlet-header">
-
                             <h3>
                                 <i class="fa fa-bar-chart-o"></i> Suvvey Chart
                             </h3>
-
                         </div>
 
                         <div class="portlet-content">
                         <input type="hidden" name="students" id="students" value="<?php echo $students; ?>">
-                            <div id="survey-chart" class="chart-holder-225"></div>
-    </div>
+                        <div id="survey-chart" class="chart-holder-225"></div>
+                    </div>
+                </div> 
+            </div>
+            <div class="col-md-12">
+                    <div class="portlet">
+                        <div class="portlet-header">
+                            <h3>
+                                <i class="fa fa-bar-chart-o"></i> Survey based on Seleted Options 
+                            </h3>
+                        </div>
+                        <div class="portlet-content">
+                        <div id="line-chart" class="chart-holder-225"></div>
 
                         </div>
-
-                    </div>
-
-                </div> <!-- /.portlet -->
-
-                <!-- End of show USERS -->
-                <br>
-
-                <!-- /.row -->
-
-            </div> <!-- /.content-container -->
-
-        </div> <!-- /.content -->
-
+                </div> <!-- end of portlet -->
+            </div> <!-- end of content -->
+        </div>
     </div>
+</div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <script src="js/libs/raphael-2.1.2.min.js"></script>
     <script src="js/plugins/morris/morris.min.js"></script>
+
+
 <script>
 $(function() {
 
