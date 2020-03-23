@@ -129,7 +129,7 @@ $(function() {
     cache: false,
     dataType: 'JSON',
     success: function(response) {
-        
+            console.log({response});
         var chart = new CanvasJS.Chart("YesNoSurveyChart", {
                 animationEnabled: true,
                 title: {
@@ -141,13 +141,7 @@ $(function() {
                     indexLabelFontSize: 17,
                     indexLabel: "{label} ({y}%)",
                     toolTipContent: "{label} ({y}%)",
-                    dataPoints: response.data ? response.data : [{
-                        y: 67,
-                        label: "Yes"
-                    }, {
-                        y: 28,
-                        label: "No"
-                    }]
+                    dataPoints: response.data ? response.data : []
                 }]
             });
             chart.render();
