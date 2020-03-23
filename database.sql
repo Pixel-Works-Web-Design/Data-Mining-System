@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2020 at 06:36 AM
+-- Generation Time: Mar 23, 2020 at 12:42 AM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -41,9 +41,7 @@ CREATE TABLE `admin_master` (
 --
 
 INSERT INTO `admin_master` (`id`, `name`, `email`, `mobile`, `password`, `type`, `passwordVisibility`) VALUES
-(1, 'Pranjal Desai', 'pixelworkswebdesign2007@gmail.com', '9979086613', '042a1ecfb0a6761285eea3103dd1fac4', 'MASTERADMIN', 'pw2dmy07'),
-(2, 'Math Teacher', 'math@gmail.com', '123455431', '202cb962ac59075b964b07152d234b70', 'FACULTY', '123'),
-(3, 'English Teacher', 'english@gmail.com', '2585241525', '202cb962ac59075b964b07152d234b70', 'FACULTY', '123');
+(1, 'Pranjal Desai', 'pixelworkswebdesign2007@gmail.com', '9979086613', '042a1ecfb0a6761285eea3103dd1fac4', 'MASTERADMIN', 'pw2dmy07');
 
 -- --------------------------------------------------------
 
@@ -58,13 +56,6 @@ CREATE TABLE `assignment` (
   `file` varchar(3000) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `assignment`
---
-
-INSERT INTO `assignment` (`id`, `subject_id`, `name`, `file`) VALUES
-(1, 1, 'Formula H2', '2203202056abv.pdf');
-
 -- --------------------------------------------------------
 
 --
@@ -76,14 +67,6 @@ CREATE TABLE `facultysubjects` (
   `faculty_id` int(150) DEFAULT NULL,
   `subject_id` int(150) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `facultysubjects`
---
-
-INSERT INTO `facultysubjects` (`id`, `faculty_id`, `subject_id`) VALUES
-(1, 2, 1),
-(2, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -103,12 +86,7 @@ CREATE TABLE `history` (
 --
 
 INSERT INTO `history` (`id`, `username`, `date`, `address`) VALUES
-(1, 'pixelworkswebdesign2007@gmail.com', '2020-03-22 02:14:58', '::1'),
-(2, 'abbasStudent@gmail.com', '2020-03-22 02:19:58', '::1'),
-(3, 'pixelworkswebdesign2007@gmail.com', '2020-03-22 02:30:42', '::1'),
-(4, 'student2@gmail.com', '2020-03-22 02:31:32', '::1'),
-(5, 'pixelworkswebdesign2007@gmail.com', '2020-03-22 02:33:08', '::1'),
-(6, 'math@gmail.com', '2020-03-22 02:35:06', '::1');
+(1, 'pixelworkswebdesign2007@gmail.com', '2020-03-22 20:42:03', '::1');
 
 -- --------------------------------------------------------
 
@@ -127,13 +105,6 @@ CREATE TABLE `mcq` (
   `answer` varchar(2000) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `mcq`
---
-
-INSERT INTO `mcq` (`id`, `quiz_id`, `question`, `option_a`, `option_b`, `option_c`, `option_d`, `answer`) VALUES
-(1, 1, 'What is Formula Code ?', 'H2', 'G6', 'F4', 'K8', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -146,13 +117,6 @@ CREATE TABLE `quiz` (
   `subject_id` int(150) DEFAULT NULL,
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `quiz`
---
-
-INSERT INTO `quiz` (`id`, `name`, `subject_id`, `date`) VALUES
-(1, 'Formula H2 Quiz', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -176,14 +140,6 @@ CREATE TABLE `students` (
   `isSurveyFill` varchar(150) DEFAULT 'NO'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `students`
---
-
-INSERT INTO `students` (`id`, `fname`, `lname`, `email`, `mobile`, `class`, `gr_no`, `gender`, `password`, `passwordVisibility`, `register_date`, `survey_date`, `isSurveyFill`) VALUES
-(1, 'Abbas', 'Student', 'abbasStudent@gmail.com', '87458585', '1', '1', 'MALE', '202cb962ac59075b964b07152d234b70', '123', '2020-03-22 02:18:13', NULL, 'YES'),
-(2, 'Student', '2', 'student2@gmail.com', '6541525252', '2', '2', 'FEMALE', '202cb962ac59075b964b07152d234b70', '123', '2020-03-22 02:31:22', NULL, 'YES');
-
 -- --------------------------------------------------------
 
 --
@@ -198,53 +154,20 @@ CREATE TABLE `studentsurvey` (
   `otherValue` varchar(2000) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `studentsurvey`
+-- Table structure for table `student_quiz`
 --
 
-INSERT INTO `studentsurvey` (`id`, `student_id`, `survey_id`, `value`, `otherValue`) VALUES
-(1, 1, 1, 'town', NULL),
-(2, 1, 2, 'address', NULL),
-(3, 1, 3, 'annual', NULL),
-(4, 1, 4, 'parents', NULL),
-(5, 1, 5, 'Personal vehicle ', NULL),
-(6, 1, 6, 'Ppts ', ''),
-(7, 1, 7, '88 may be', NULL),
-(8, 1, 8, 'math', NULL),
-(9, 1, 9, 'no idea', NULL),
-(10, 1, 10, 'no idea', NULL),
-(11, 1, 11, 'Ppts ', ''),
-(12, 1, 12, 'NO', NULL),
-(13, 1, 13, 'NO', NULL),
-(14, 1, 14, 'NO', NULL),
-(15, 1, 15, 'couns', NULL),
-(16, 1, 16, 'no idea', NULL),
-(17, 1, 17, 'NO', NULL),
-(18, 1, 18, 'NO', NULL),
-(19, 1, 19, 'NO', NULL),
-(20, 1, 20, 'no idea', NULL),
-(21, 1, 21, 'YES ', ''),
-(22, 2, 1, 'khkhbh', NULL),
-(23, 2, 2, 'vhgvh', NULL),
-(24, 2, 3, 'vhv', NULL),
-(25, 2, 4, 'hj', NULL),
-(26, 2, 5, 'Public transportation ', NULL),
-(27, 2, 6, 'Ppts ', ''),
-(28, 2, 7, 'nkn', NULL),
-(29, 2, 8, 'njknk', NULL),
-(30, 2, 9, 'kjnk', NULL),
-(31, 2, 10, 'nkjnk', NULL),
-(32, 2, 11, 'Books ', ''),
-(33, 2, 12, 'NO', NULL),
-(34, 2, 13, 'NO', NULL),
-(35, 2, 14, 'NO', NULL),
-(36, 2, 15, 'lknkkl', NULL),
-(37, 2, 16, 'nkn', NULL),
-(38, 2, 17, 'NO', NULL),
-(39, 2, 18, 'NO', NULL),
-(40, 2, 19, 'NO', NULL),
-(41, 2, 20, ';,;,;', NULL),
-(42, 2, 21, 'YES ', '');
+CREATE TABLE `student_quiz` (
+  `id` int(200) NOT NULL,
+  `student_id` int(150) DEFAULT NULL,
+  `quiz_id` int(150) DEFAULT NULL,
+  `questions` int(150) DEFAULT NULL,
+  `result` int(150) DEFAULT NULL,
+  `date` date DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -256,16 +179,6 @@ CREATE TABLE `subjects` (
   `id` int(200) NOT NULL,
   `subject` varchar(500) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `subjects`
---
-
-INSERT INTO `subjects` (`id`, `subject`) VALUES
-(1, 'Mathematics'),
-(2, 'English'),
-(3, 'Hindi'),
-(4, 'Data Structure');
 
 -- --------------------------------------------------------
 
@@ -361,6 +274,12 @@ ALTER TABLE `studentsurvey`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `student_quiz`
+--
+ALTER TABLE `student_quiz`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `subjects`
 --
 ALTER TABLE `subjects`
@@ -380,47 +299,52 @@ ALTER TABLE `survey`
 -- AUTO_INCREMENT for table `admin_master`
 --
 ALTER TABLE `admin_master`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT COMMENT 'id', AUTO_INCREMENT=4;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT COMMENT 'id', AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `assignment`
 --
 ALTER TABLE `assignment`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `facultysubjects`
 --
 ALTER TABLE `facultysubjects`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `mcq`
 --
 ALTER TABLE `mcq`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `quiz`
 --
 ALTER TABLE `quiz`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT COMMENT 'id', AUTO_INCREMENT=3;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT COMMENT 'id';
 --
 -- AUTO_INCREMENT for table `studentsurvey`
 --
 ALTER TABLE `studentsurvey`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `student_quiz`
+--
+ALTER TABLE `student_quiz`
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `subjects`
 --
 ALTER TABLE `subjects`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `survey`
 --
