@@ -1,9 +1,12 @@
 <?php include_once "header.inc.php";?>
 
 <style>
-.morris-hover-row-label{
-    display:none !important;
-}
+    .canvasjs-chart-credit{
+        display:none;
+    }
+    .morris-hover-row-label{
+        display:none !important;
+    }
     .dots{
         position:absolute;
         top:4px;
@@ -37,7 +40,7 @@ $students = mysql_num_rows($getStudents);
 
 ?>
 <div class="container">
-    <div class="content">
+    <div class="content" style="padding-bottom:800px;">
         <div class="content-container">
             <h3>Dashboard</h3>
             <br>
@@ -80,8 +83,25 @@ $students = mysql_num_rows($getStudents);
                             </h3>
                         </div>
                         <div class="portlet-content">
-                        <div id="line-chart" class="chart-holder-225"></div>
-
+                        <div class="form-group col-md-5">
+                        <br><br><br><br>
+                            <label class="col-md-12 text-success" style="margin-left:-10px;">Select Survey Option :</label>
+                                        <select name="subject" tabindex="2" class="form-control">
+                                            <?php
+ $getSurbeyOption = mysql_query("SELECT *from survey where value != 'INPUT'");    
+while ($row = mysql_fetch_array($getSurbeyOption)) {
+        ?>
+                                            <option value="<?php echo $row['id'] ?>" style="font-weight:600;" <?php if ($row['id'] === '5') echo 'selected="selected"';  ?>>
+                                                <?php echo $row['title']; ?>
+                                            </option>
+                                            <?php
+}
+    ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                        <div id="YesNoSurveyChart" style="height: 300px; width: 100%;"></div>
+                        </div>
                         </div>
                 </div> <!-- end of portlet -->
             </div> <!-- end of content -->
@@ -92,11 +112,48 @@ $students = mysql_num_rows($getStudents);
 
     <script src="js/libs/raphael-2.1.2.min.js"></script>
     <script src="js/plugins/morris/morris.min.js"></script>
-
+    <script src="js/line.js"></script>
 
 <script>
 $(function() {
+    $('select').on('change', function (e) {
+    var optionSelected = $("option:selected", this);
+    var valueSelected = this.value;
+    
+        lineSurvey(valueSelected)
+});
 
+    function lineSurvey(id = 5) {
+        $.ajax({
+    url: "surveySelectOptionChartData.php?id="+id,
+    cache: false,
+    dataType: 'JSON',
+    success: function(response) {
+        
+        var chart = new CanvasJS.Chart("YesNoSurveyChart", {
+                animationEnabled: true,
+                title: {
+                    text:response.title
+                },
+                data: [{
+                    type: "doughnut",
+                    startAngle: 60,
+                    indexLabelFontSize: 17,
+                    indexLabel: "{label} ({y}%)",
+                    toolTipContent: "{label} ({y}%)",
+                    dataPoints: response.data ? response.data : [{
+                        y: 67,
+                        label: "Yes"
+                    }, {
+                        y: 28,
+                        label: "No"
+                    }]
+                }]
+            });
+            chart.render();
+    }
+});
+    }
     
 function survey() {
 $('#survey-chart').empty();
@@ -144,7 +201,7 @@ $.ajax({
 
     survey();
 	line ();
-
+    lineSurvey();
     $(window).resize(target_admin.debounce(survey, 325));
 	$(window).resize (target_admin.debounce (line, 325));
 
