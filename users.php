@@ -109,7 +109,7 @@ include "helper.php";
                         </div>
                         <div class="portlet-content">
                             <form method="post" id="validate-basic" action="users.php" class="form parsley-form"
-                                data-validate="parsley" enctype="multipart/form-data">
+                                data-validate="parsley" enctype="multipart/form-data" onsubmit="return mobilefunction()">
 
                                 <div class="col-md-12">
                                     <div class="alert alert-danger"><strong>(Note:All marked(<strong
@@ -140,6 +140,7 @@ include "helper.php";
                                         <input name="mobile" type="text" id="mobile" tabindex="2" class="form-control"
                                             data-required="true" data-type="number"
                                             data-required-message="Please Enter Mobile" data-min="10" />
+                                            <span id="mobilemessage"></span>
                                     </div>
                                 </div>
                             
@@ -152,7 +153,7 @@ include "helper.php";
                                             data-required-message="Please Enter Password" />
                                     </div>
                                 </div>
-                                <br>
+                                <div class="col-sm-12"><br></div>
                                 <div class="col-sm-6">
                                     <label class="col-md-12">Confirm Passowrd :<strong
                                             style="color:Red">*</strong></label>
@@ -201,7 +202,7 @@ include "helper.php";
                         </div>
                         <div class="portlet-content">
                             <form method="post" id="validate-basic" action="users.php" class="form parsley-form"
-                                data-validate="parsley" enctype="multipart/form-data">
+                                data-validate="parsley" enctype="multipart/form-data" onsubmit="return mobilefunction()">
                                 <input type="hidden" name="id" id="id" value="<?php echo $id; ?>">
                                 <div class="col-md-12">
                                     <div class="alert alert-danger"><strong>(Note:All marked(<strong
@@ -235,6 +236,7 @@ include "helper.php";
                                             data-required="true" data-type="number"
                                             data-required-message="Please Enter Mobile" data-min="10"
                                             value="<?php echo $data['mobile'] ?>" />
+                                            <span id="mobilemessage"></span>
                                     </div>
                                 </div>
                                
