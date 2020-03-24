@@ -31,6 +31,12 @@
         background-color:blue;
     }
     #line-chart tspan { fill: none; }
+    .optionValue{
+        padding:5px 10px;
+        display:block;
+        font-size:15px;
+        text-decoration:none !important;
+    }
 </style>
 
 <?php
@@ -84,7 +90,7 @@ $students = mysql_num_rows($getStudents);
                         </div>
                         <div class="portlet-content">
                         <div class="form-group col-md-5">
-                        <br><br><br><br>
+                        <br><br>
                             <label class="col-md-12 text-success" style="margin-left:-10px;">Select Survey Option :</label>
                                         <select name="subject" tabindex="2" class="form-control">
                                             <?php
@@ -98,8 +104,11 @@ while ($row = mysql_fetch_array($getSurbeyOption)) {
 }
     ?>
                                         </select>
+                                        <br>
+                                        <div id="options">
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-7">
                         <div id="YesNoSurveyChart" style="height: 300px; width: 100%;"></div>
                         </div>
                         </div>
@@ -120,16 +129,26 @@ $(function() {
     var optionSelected = $("option:selected", this);
     var valueSelected = this.value;
     
-        lineSurvey(valueSelected)
+        surveySelect(valueSelected)
 });
 
-    function lineSurvey(id = 5) {
+    function surveySelect(id = 5) {
         $.ajax({
     url: "surveySelectOptionChartData.php?id="+id,
     cache: false,
     dataType: 'JSON',
     success: function(response) {
-            console.log({response});
+            
+            $("#options").html("");
+            let datas = ``;
+            response && response.data.map(({label,y})=>{
+                datas+=`<div><a href='surveyOptionView.php?surveyid=${id}&option=${label}' class='optionValue'>
+                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;
+                ${label} &nbsp;&nbsp; (${y}%)
+                </a></div>`;
+            })
+      $("#options").append(datas);
+            
         var chart = new CanvasJS.Chart("YesNoSurveyChart", {
                 animationEnabled: true,
                 title: {
@@ -195,7 +214,7 @@ $.ajax({
 
     survey();
 	line ();
-    lineSurvey();
+    surveySelect();
     $(window).resize(target_admin.debounce(survey, 325));
 	$(window).resize (target_admin.debounce (line, 325));
 
