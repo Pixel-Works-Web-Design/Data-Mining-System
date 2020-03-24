@@ -4,6 +4,11 @@
 .space {
     padding-left:20px !important;
 }
+.goback{
+  position:absolute;
+   top:25px;
+    right:30px;
+}
   .form-group .icheckbox_minimal-blue, .form-group .iradio_minimal-blue {
     display: inline-block;
     top: 4px;
@@ -36,7 +41,11 @@
     <div class="content-header">
         <h2 class="content-header-title">
             Survey Question : <u> <?php  echo $question; ?> </u>
+            <a href="dashboard.php">
+        <span for="" class="goback">GO BACK</span>
+        </a>
         </h2>
+
         <ol class="breadcrumb">
           <li><a href="dashboard.php">Home</a></li>
           <li><a href="#">Suvey</a></li>

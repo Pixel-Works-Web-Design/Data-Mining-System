@@ -110,6 +110,7 @@ while ($row = mysql_fetch_array($getSurbeyOption)) {
                                     </div>
                                     <div class="form-group col-md-7">
                         <div id="YesNoSurveyChart" style="height: 300px; width: 100%;"></div>
+                        <input type="hidden" name="type" id="type" value="<?php echo $_SESSION['type']; ?>">
                         </div>
                         </div>
                 </div> <!-- end of portlet -->
@@ -138,7 +139,9 @@ $(function() {
     cache: false,
     dataType: 'JSON',
     success: function(response) {
-            
+        var type = $('#type').val();
+
+        if(type !== 'STUDENT'){
             $("#options").html("");
             let datas = ``;
             response && response.data.map(({label,y})=>{
@@ -148,6 +151,7 @@ $(function() {
                 </a></div>`;
             })
       $("#options").append(datas);
+        }
             
         var chart = new CanvasJS.Chart("YesNoSurveyChart", {
                 animationEnabled: true,
